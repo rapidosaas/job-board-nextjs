@@ -62,7 +62,7 @@ export default function NewJobForm() {
   return (
     <main className="m-auto my-10 max-w-3xl space-y-10">
       <div className="space-y-5 text-center">
-        <h1 className="text-2xl font-extrabold">Find your FULL REMOTE developer</h1>
+        <h1 className="text-2xl font-extrabold">Find your<span className="bg-gradient-to-r from-sky-200 to-sky-500"> Full Remote </span>developer</h1>
         <p className="text-muted-foreground">
           Get your job posting seen by thousands of job seekers.
         </p>

@@ -4,7 +4,13 @@ import { redirect } from "next/navigation";
 import FormSubmitButton from "./FormSubmitButton";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Select } from "./ui/select";
+import {   
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue, 
+} from "./ui/select";
 
 async function filterJobs(formData: FormData) {
   "use server";
@@ -53,12 +59,16 @@ export default async function JobFilterSidebar({
               name="type"
               defaultValue={defaultValues.type || ""}
             >
-              <option value="">All types</option>
-              {jobTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
+              <SelectTrigger>
+                <SelectValue placeholder="All types" />
+              </SelectTrigger>
+              <SelectContent>
+                {distinctLocations.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <div className="flex flex-col gap-2">
@@ -68,12 +78,16 @@ export default async function JobFilterSidebar({
               name="location"
               defaultValue={defaultValues.location || ""}
             >
-              <option value="">All locations</option>
-              {distinctLocations.map((location) => (
-                <option key={location} value={location}>
-                  {location}
-                </option>
-              ))}
+              <SelectTrigger>
+                <SelectValue placeholder="All locations" />
+              </SelectTrigger>
+              <SelectContent>
+                {distinctLocations.map((location) => (
+                  <SelectItem key={location} value={location}>
+                    {location}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <FormSubmitButton className="w-full">Filter jobs</FormSubmitButton>
