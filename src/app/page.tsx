@@ -26,7 +26,7 @@ export default async function Home({
   return (
     <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
       <div className="space-y-5 text-center">
-        <h1 className="text-2xl font-extrabold">Explore<span className="bg-gradient-to-r from-sky-200 to-sky-500"> Full Remote </span>freelance jobs</h1>
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Explore Full Remote freelance jobs</h1>
         <p className="text-muted-foreground">Find your dream mission.</p>
       </div>
       <section className="flex flex-col gap-4 md:flex-row">

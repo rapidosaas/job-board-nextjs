@@ -63,7 +63,7 @@ export default async function JobFilterSidebar({
                 <SelectValue placeholder="All types" />
               </SelectTrigger>
               <SelectContent>
-                {distinctLocations.map((type) => (
+                {jobTypes.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type}
                   </SelectItem>

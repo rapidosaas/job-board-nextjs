@@ -60,9 +60,9 @@ export default function NewJobForm() {
   }
 
   return (
-    <main className="m-auto my-10 max-w-3xl space-y-10">
+    <main className="m-auto my-10 max-w-4xl space-y-10">
       <div className="space-y-5 text-center">
-        <h1 className="text-2xl font-extrabold">Find your<span className="bg-gradient-to-r from-sky-200 to-sky-500"> Full Remote </span>developer</h1>
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Find your Full Remote developer</h1>
         <p className="text-muted-foreground">
           Get your job posting seen by thousands of job seekers.
         </p>
@@ -99,9 +99,9 @@ export default function NewJobForm() {
                         <SelectValue placeholder="Select an option" />
                       </SelectTrigger>
                       <SelectContent>
-                        {jobTypes.map((jobType) => (
-                          <SelectItem key={jobType} value={jobType}>
-                            {jobType}
+                        {jobTypes.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
                           </SelectItem>
                         ))}
                       </SelectContent>
