@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { jobTypes, locationTypes } from "./job-types";
+import { jobTypes } from "./job-types";
 
 const requiredString = z.string().min(1, "Required");
 const numericRequiredString = requiredString.regex(/^\d+$/, "Must be a number");
