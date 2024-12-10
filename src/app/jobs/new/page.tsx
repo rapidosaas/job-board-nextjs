@@ -95,14 +95,16 @@ export default function NewJobForm() {
                   <FormLabel>Job type</FormLabel>
                   <FormControl>
                     <Select {...field} defaultValue="">
-                      <option value="" hidden>
-                        Select an option
-                      </option>
-                      {jobTypes.map((jobType) => (
-                        <option key={jobType} value={jobType}>
-                          {jobType}
-                        </option>
-                      ))}
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select an option" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {jobTypes.map((jobType) => (
+                          <SelectItem key={jobType} value={jobType}>
+                            {jobType}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
                     </Select>
                   </FormControl>
                   <FormMessage />
