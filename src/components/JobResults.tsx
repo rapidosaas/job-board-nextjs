@@ -9,8 +9,8 @@ interface JobResultsProps {
   page?: number;
 }
 
-const jobsPerPage = 10;
-const totalResults = 5;
+const jobsPerPage = 5;
+const totalResults = 10;
 const jobs = Array.from({ length: jobsPerPage }, (_, i) => ({
   id: i,
   title: "Senior Frontend Developer",
