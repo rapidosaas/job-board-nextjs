@@ -20,7 +20,7 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { jobTypes, locationTypes } from "@/lib/job-types";
+import { jobTypes } from "@/lib/job-types";
 import { CreateJobValues, createJobSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
@@ -36,7 +36,6 @@ export default function NewJobForm() {
   const {
     handleSubmit,
     watch,
-    trigger,
     control,
     setValue,
     setFocus,
@@ -55,7 +54,7 @@ export default function NewJobForm() {
     try {
       await createJobPosting(formData);
     } catch (error) {
-      alert("Something went wrong, please try again.");
+      console.error(error);
     }
   }
 

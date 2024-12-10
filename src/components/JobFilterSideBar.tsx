@@ -55,9 +55,8 @@ export default async function JobFilterSidebar({
           <div className="flex flex-col gap-2">
             <Label htmlFor="type">Type</Label>
             <Select
-              id="type"
               name="type"
-              defaultValue={defaultValues.type || ""}
+              defaultValue={defaultValues.type ?? "" }
             >
               <SelectTrigger>
                 <SelectValue placeholder="All types" />
@@ -74,9 +73,8 @@ export default async function JobFilterSidebar({
           <div className="flex flex-col gap-2">
             <Label htmlFor="location">Location</Label>
             <Select
-              id="location"
               name="location"
-              defaultValue={defaultValues.location || ""}
+              defaultValue={defaultValues.location ?? ""}
             >
               <SelectTrigger>
                 <SelectValue placeholder="All locations" />

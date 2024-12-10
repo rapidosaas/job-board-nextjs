@@ -19,7 +19,7 @@ const jobs = Array.from({ length: jobsPerPage }, (_, i) => ({
   locationType: "Full Remote",
   location: "Worldwide",
   salary: 250,
-  createdAt: new Date().toISOString(),
+  createdAt: new Date(),
   slug: "senior-frontend-developer",
 }));
 

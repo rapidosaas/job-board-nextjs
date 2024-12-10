@@ -1,5 +1,5 @@
 import { formatMoney, relativeDate } from "@/lib/utils";
-import { Banknote, Briefcase, Clock, Globe2, MapPin } from "lucide-react";
+import { Banknote, Briefcase, Clock, Globe2 } from "lucide-react";
 import Badge from "./Badge";
 
 interface JobListItemProps {
@@ -7,10 +7,9 @@ interface JobListItemProps {
     title : string;
     companyName : string;
     type : string;
-    locationType : string;
     location : string;
     salary : number;
-    createdAt : string;
+    createdAt : Date;
   };
 }
 
@@ -19,7 +18,6 @@ export default function JobListItem({
     title,
     companyName,
     type,
-    locationType,
     location,
     salary,
     createdAt,
@@ -36,10 +34,6 @@ export default function JobListItem({
           <p className="flex items-center gap-1.5 sm:hidden">
             <Briefcase size={16} className="shrink-0" />
             {type}
-          </p>
-          <p className="flex items-center gap-1.5">
-            <MapPin size={16} className="shrink-0" />
-            {locationType}
           </p>
           <p className="flex items-center gap-1.5">
             <Globe2 size={16} className="shrink-0" />
