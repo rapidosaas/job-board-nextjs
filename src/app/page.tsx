@@ -37,6 +37,7 @@ export function generateMetadata({
 export default async function Home({
   searchParams: { q, type, page },
 }: PageProps) {
+  
   const filterValues: JobFilterValues = {
     q,
     type,

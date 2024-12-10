@@ -12,7 +12,7 @@ export default function Navbar() {
           <Image src={logo} width={40} height={40} alt="Your Job Board logo" />
           <span className="text-xl font-bold tracking-tight">Your Job Board</span>
         </Link>
-        <div className="flex gap-3">
+        <div className="flex gap-1">
         <Button asChild>
           <Link href="/jobs/new">Post a job</Link>
         </Button>
