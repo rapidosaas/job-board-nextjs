@@ -17,13 +17,11 @@ async function filterJobs(formData: FormData) {
 
   const values = Object.fromEntries(formData.entries());
 
-  const { q, type, location, remote } = jobFilterSchema.parse(values);
+  const { q, type } = jobFilterSchema.parse(values);
 
   const searchParams = new URLSearchParams({
     ...(q && { q: q.trim() }),
     ...(type && { type }),
-    ...(location && { location }),
-    ...(remote && { remote: "true" }),
   });
 
   redirect(`/?${searchParams.toString()}`);
@@ -36,8 +34,6 @@ interface JobFilterSidebarProps {
 export default async function JobFilterSidebar({
   defaultValues,
 }: Readonly<JobFilterSidebarProps>) {
-  
-  const distinctLocations = ["New York", "San Francisco", "Los Angeles"];
 
   return (
     <aside className="sticky top-0 h-fit rounded-lg border bg-background p-4 md:w-[260px]">
@@ -65,24 +61,6 @@ export default async function JobFilterSidebar({
                 {jobTypes.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="location">Location</Label>
-            <Select
-              name="location"
-              defaultValue={defaultValues.location ?? ""}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="All locations" />
-              </SelectTrigger>
-              <SelectContent>
-                {distinctLocations.map((location) => (
-                  <SelectItem key={location} value={location}>
-                    {location}
                   </SelectItem>
                 ))}
               </SelectContent>

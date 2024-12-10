@@ -1,8 +1,6 @@
 "use client";
 
 import LoadingButton from "@/components/LoadingButton";
-import LocationInput from "@/components/LocationInput";
-import RichTextEditor from "@/components/RichTextEditor";
 import {
   Form,
   FormControl,
@@ -20,11 +18,10 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 import { jobTypes } from "@/lib/job-types";
 import { CreateJobValues, createJobSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
-import { draftToMarkdown } from "markdown-draft-js";
 import { useForm } from "react-hook-form";
 import { createJobPosting } from "./actions";
 
@@ -35,9 +32,7 @@ export default function NewJobForm() {
 
   const {
     handleSubmit,
-    watch,
     control,
-    setValue,
     setFocus,
     formState: { isSubmitting },
   } = form;
@@ -80,7 +75,7 @@ export default function NewJobForm() {
                 <FormItem>
                   <FormLabel>Job title</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Frontend Developer" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,7 +90,7 @@ export default function NewJobForm() {
                   <FormControl>
                     <Select {...field} defaultValue="">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select an option" />
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         {jobTypes.map((type) => (
@@ -125,35 +120,6 @@ export default function NewJobForm() {
             />
             <FormField
               control={control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company location</FormLabel>
-                  <FormControl>
-                    <LocationInput
-                      onLocationSelected={field.onChange}
-                      ref={field.ref}
-                    />
-                  </FormControl>
-                  {watch("location") && (
-                    <div className="flex items-center gap-1">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setValue("location", "", { shouldValidate: true });
-                        }}
-                      >
-                        <X size={20} />
-                      </button>
-                      <span className="text-sm">{watch("location")}</span>
-                    </div>
-                  )}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
               name="description"
               render={({ field }) => (
                 <FormItem>
@@ -161,9 +127,9 @@ export default function NewJobForm() {
                     Description
                   </Label>
                   <FormControl>
-                    <RichTextEditor
+                    <Textarea
                       onChange={(draft) =>
-                        field.onChange(draftToMarkdown(draft))
+                        field.onChange(draft.target.value)
                       }
                       ref={field.ref}
                     />

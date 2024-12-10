@@ -7,42 +7,39 @@ interface PageProps {
   searchParams: {
     q?: string;
     type?: string;
-    location?: string;
     page?: string;
   };
 }
 
-function getTitle({ q, type, location }: JobFilterValues) {
+function getTitle({ q, type }: JobFilterValues) {
   const titlePrefix = q
-    ? `${q} jobs`
+    ? `${q}`
     : type
-      ? `${type} developer jobs`
-      : "All developer jobs";
+      ? `${type} developer`
+      : "All developer";
 
-  const titleSuffix = location ? ` in ${location}` : "";
+  const titleSuffix = " jobs";
 
   return `${titlePrefix}${titleSuffix}`;
 }
 
 export function generateMetadata({
-  searchParams: { q, type, location },
+  searchParams: { q, type },
 }: PageProps): Metadata {
   return {
     title: `${getTitle({
       q,
       type,
-      location,
     })} | Your Job Board`,
   };
 }
 
 export default async function Home({
-  searchParams: { q, type, location, page },
+  searchParams: { q, type, page },
 }: PageProps) {
   const filterValues: JobFilterValues = {
     q,
     type,
-    location,
   };
 
   return (
