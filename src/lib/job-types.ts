@@ -5,6 +5,7 @@ export const jobTypes = [
     "Temporary",
     "Internship",
     "Volunteer",
+    "Donation",
   ];
   
   export const locationTypes = ["Remote", "On-site", "Hybrid"];  

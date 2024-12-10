@@ -12,13 +12,13 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex flex-wrap gap-5 text-sm text-muted-foreground">
-            <Link href="/contact" className="hover:underline">
+            <Link href="https://www.linkedin.com/in/nazimboudeffa" className="hover:underline">
               Contact
             </Link>
-            <Link href="/terms" className="hover:underline">
+            <Link href="/tos" className="hover:underline">
               Terms of Service
             </Link>
-            <Link href="/privacy" className="hover:underline">
+            <Link href="/privacy-policy" className="hover:underline">
               Privacy Policy
             </Link>
           </div>
