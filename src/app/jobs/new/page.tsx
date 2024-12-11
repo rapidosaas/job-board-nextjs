@@ -31,8 +31,8 @@ export default function NewJobForm() {
   });
 
   const {
-    handleSubmit,
     control,
+    handleSubmit,
     setFocus,
     formState: { isSubmitting },
   } = form;
@@ -75,31 +75,44 @@ export default function NewJobForm() {
                 <FormItem>
                   <FormLabel>Job title</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} value={field.value ?? ''}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-              control={control}
+              control={form.control}
               name="type"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Job type</FormLabel>
-                  <FormControl>
-                    <Select {...field} defaultValue="">
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
                       <SelectTrigger>
-                        <SelectValue />
+                        <SelectValue placeholder="Select a job type" />
                       </SelectTrigger>
-                      <SelectContent>
-                        {jobTypes.map((type) => (
-                          <SelectItem key={type} value={type}>
-                            {type}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    </FormControl>
+                    <SelectContent>
+                      {jobTypes.map((type) => (
+                            <SelectItem key={type} value={type}>
+                              {type}
+                            </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="salary"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Daily rate</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="number" value={field.value ?? 0} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,12 +120,12 @@ export default function NewJobForm() {
             />
             <FormField
               control={control}
-              name="companyName"
+              name="company"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Company name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} value={field.value ?? ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -128,24 +141,10 @@ export default function NewJobForm() {
                   </Label>
                   <FormControl>
                     <Textarea
-                      onChange={(draft) =>
-                        field.onChange(draft.target.value)
-                      }
-                      ref={field.ref}
+                      placeholder="Tell us a little bit about this job"
+                      className="resize-none"
+                      {...field}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="salary"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Daily rate</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="number" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

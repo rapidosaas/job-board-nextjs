@@ -1,37 +1,29 @@
+"use server";
+
 import { toSlug } from "@/lib/utils";
-import { createJobSchema } from "@/lib/validations";
 import { nanoid } from "nanoid";
-import { redirect } from "next/navigation";
+import { connect } from "@/utils/config/db";
+import Job from "@/utils/models/Job";
 
 export async function createJobPosting(formData: FormData) {
-    const values = Object.fromEntries(formData.entries());
-  
-    const {
-      title,
-      type,
-      companyName,
-      locationType,
-      location,
-      applicationEmail,
-      applicationUrl,
-      description,
-      salary,
-    } = createJobSchema.parse(values);
-  
-    const slug = `${toSlug(title)}-${nanoid(10)}`;
-  
-    console.log({
-        title,
-        type,
-        companyName,
-        locationType,
-        location,
-        applicationEmail,
-        applicationUrl,
-        description,
-        salary,
-        slug,
-    });
-    
-      redirect("/job-submitted");
+    try {
+        await connect();
+
+        const values = Object.fromEntries(formData.entries());
+
+        console.log(values);
+
+        await Job.create({
+            title: values.title,
+            slug: `${toSlug(values.title as string)}-${nanoid(10)}`,
+            type: values.type,
+            company: values.company,
+            salary: values.salary,
+            description: values.description,
+            createdAt: new Date(),
+        });
+
+    } catch (error) {
+        console.error("Error creating job posting:", error);
     }
+}
