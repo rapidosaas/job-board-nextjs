@@ -13,7 +13,7 @@ export async function createJobPosting(formData: FormData) {
 
         console.log(values);
 
-        await Job.create({
+        await Job.collection.insertOne({
             title: values.title,
             slug: `${toSlug(values.title as string)}-${nanoid(10)}`,
             type: values.type,
@@ -22,6 +22,8 @@ export async function createJobPosting(formData: FormData) {
             description: values.description,
             createdAt: new Date(),
         });
+
+        console.log("Job posting created successfully");
 
     } catch (error) {
         console.error("Error creating job posting:", error);
