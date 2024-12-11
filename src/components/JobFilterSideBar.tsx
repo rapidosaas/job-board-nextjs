@@ -12,15 +12,14 @@ import {
   SelectValue, 
 } from "./ui/select";
 
-async function filterJobs(formData: FormData) {
-  "use server";
+function filterJobs(formData: FormData) {
 
   const values = Object.fromEntries(formData.entries());
 
-  const { q, type } = jobFilterSchema.parse(values);
+  const { title, type } = jobFilterSchema.parse(values);
 
   const searchParams = new URLSearchParams({
-    ...(q && { q: q.trim() }),
+    ...(title && { title: title.trim() }),
     ...(type && { type }),
   });
 
@@ -31,7 +30,7 @@ interface JobFilterSidebarProps {
   defaultValues: JobFilterValues;
 }
 
-export default async function JobFilterSidebar({
+export default function JobFilterSidebar({
   defaultValues,
 }: Readonly<JobFilterSidebarProps>) {
 
@@ -40,12 +39,12 @@ export default async function JobFilterSidebar({
       <form action={filterJobs} key={JSON.stringify(defaultValues)}>
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="q">Search</Label>
+            <Label htmlFor="title">Title</Label>
             <Input
-              id="q"
-              name="q"
-              placeholder="Title, company, etc."
-              defaultValue={defaultValues.q}
+              id="title"
+              name="title"
+              placeholder="Search by job title"
+              defaultValue={defaultValues.title ?? "" }
             />
           </div>
           <div className="flex flex-col gap-2">

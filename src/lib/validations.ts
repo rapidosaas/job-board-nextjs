@@ -19,7 +19,7 @@ export const createJobSchema = z
 export type CreateJobValues = z.infer<typeof createJobSchema>;
 
 export const jobFilterSchema = z.object({
-  q: z.string().optional(),
+  title: z.string().optional(),
   type: z.string().optional(),
 });
 

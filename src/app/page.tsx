@@ -1,46 +1,35 @@
+'use client'
+ 
+import { useSearchParams } from 'next/navigation'
 import JobFilterSidebar from "@/components/JobFilterSideBar";
 import JobResults from "@/components/JobResults";
 import { JobFilterValues } from "../lib/validations";
-import { Metadata } from "next";
 
-interface PageProps {
-  searchParams: {
-    q?: string;
-    type?: string;
-    page?: string;
-  };
-}
-
-function getTitle({ q, type }: JobFilterValues) {
-  const titlePrefix = q
-    ? `${q}`
-    : type
-      ? `${type} developer`
-      : "All developer";
+function getTitle({ title, type }: JobFilterValues) {
+  let titlePrefix;
+  if (title) {
+    titlePrefix = `${title}`;
+  } else if (type) {
+    titlePrefix = `${type} developer`;
+  } else {
+    titlePrefix = "All developer";
+  }
 
   const titleSuffix = " jobs";
 
   return `${titlePrefix}${titleSuffix}`;
 }
 
-export function generateMetadata({
-  searchParams: { q, type },
-}: PageProps): Metadata {
-  return {
-    title: `${getTitle({
-      q,
-      type,
-    })} | Your Job Board`,
-  };
-}
-
-export default async function Home({
-  searchParams: { q, type, page },
-}: PageProps) {
+export default function Home() {
   
-  const filterValues: JobFilterValues = {
-    q,
-    type,
+  const searchParams = useSearchParams();
+  const title = searchParams.get('title');
+  const type = searchParams.get('type');
+  const page = searchParams.get('page');
+
+  const filterValues = {
+    title: title ?? undefined,
+    type: type ?? undefined,
   };
 
   return (

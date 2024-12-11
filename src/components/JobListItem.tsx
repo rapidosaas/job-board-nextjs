@@ -4,8 +4,9 @@ import Badge from "./Badge";
 
 interface JobListItemProps {
   job: {
+    _id : number;
     title : string;
-    companyName : string;
+    company : string;
     type : string;
     location : string;
     salary : number;
@@ -15,8 +16,9 @@ interface JobListItemProps {
 
 export default function JobListItem({
   job: {
+    _id,
     title,
-    companyName,
+    company,
     type,
     location,
     salary,
@@ -25,10 +27,10 @@ export default function JobListItem({
 }: Readonly<JobListItemProps>) {
   return (
     <article className="flex gap-3 rounded-lg border p-5 hover:bg-muted/60">
-      <div className="flex-grow space-y-3">
+      <div id={_id.toString()} className="flex-grow space-y-3">
         <div>
           <h2 className="text-xl font-medium">{title}</h2>
-          <p className="text-muted-foreground">{companyName}</p>
+          <p className="text-muted-foreground">{company}</p>
         </div>
         <div className="text-muted-foreground">
           <p className="flex items-center gap-1.5 sm:hidden">
