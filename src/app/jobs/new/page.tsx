@@ -24,7 +24,7 @@ import { CreateJobValues, createJobSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { createJobPosting } from "./actions";
-import { Toaster, toast } from 'sonner'
+import { redirect } from "next/navigation";
 
 export default function NewJobForm() {
   const form = useForm<CreateJobValues>({
@@ -52,7 +52,7 @@ export default function NewJobForm() {
     } catch (error) {
       console.error(error);
     } finally {
-      toast.success("Job posting created successfully");
+      redirect("/job-submitted")
     }
   }
 
@@ -64,7 +64,6 @@ export default function NewJobForm() {
           Get your job posting seen by thousands of job seekers.
         </p>
       </div>
-      <Toaster />
       <div className="space-y-6 rounded-lg border p-4">
         <Form {...form}>
           <form

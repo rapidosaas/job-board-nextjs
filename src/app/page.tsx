@@ -10,9 +10,9 @@ function getTitle({ title, type }: JobFilterValues) {
   if (title) {
     titlePrefix = `${title}`;
   } else if (type) {
-    titlePrefix = `${type} developer`;
+    titlePrefix = `${type} freelance`;
   } else {
-    titlePrefix = "All developer";
+    titlePrefix = "All freelance";
   }
 
   const titleSuffix = " jobs";
@@ -36,7 +36,7 @@ export default function Home() {
     <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
       <div className="space-y-5 text-center">
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">{getTitle(filterValues)}</h1>
-        <p className="text-muted-foreground">Find your dream job.</p>
+        <p className="text-muted-foreground">Find your dream mission.</p>
       </div>
       <section className="flex flex-col gap-4 md:flex-row">
         <JobFilterSidebar defaultValues={filterValues} />

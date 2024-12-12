@@ -42,20 +42,22 @@ export default function JobResults({
 }: Readonly<JobResultsProps>) {
 
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [totalJobs, setTotalJobs] = useState(0);
 
   useEffect(() => {
     fetch("/api/jobs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...filterValues }),
+      body: JSON.stringify({ ...filterValues, page, jobsPerPage }),
     })
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
       setJobs(data.jobs);
+      setTotalJobs(data.total);
     })
     .catch((err) => console.log(err));
-  }, [filterValues]);
+  }, [filterValues, page]);
 
   return (
     <div className="grow space-y-4">
@@ -72,7 +74,7 @@ export default function JobResults({
       {jobs?.length > 0 && (
         <Pagination
           currentPage={page}
-          totalPages={Math.ceil(jobs?.length / jobsPerPage)}
+          totalPages={Math.ceil(totalJobs / jobsPerPage)}
           filterValues={filterValues}
         />
       )}
