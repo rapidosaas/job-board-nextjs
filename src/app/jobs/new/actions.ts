@@ -2,12 +2,12 @@
 
 import { toSlug } from "@/lib/utils";
 import { nanoid } from "nanoid";
-import { connect } from "@/lib/db";
-import Job from "@/utils/models/Job";
+import { connectDB } from "@/lib/db";
+import Job from "@/lib/models/Job";
 
 export async function createJobPosting(formData: FormData) {
     try {
-        await connect();
+        await connectDB();
 
         const values = Object.fromEntries(formData.entries());
 
