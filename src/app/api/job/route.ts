@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/db";
-import Job from "@/utils/models/Job";
+import Job from "@/lib/models/Job";
 import { NextResponse, NextRequest } from "next/server";
 
 connectDB();
