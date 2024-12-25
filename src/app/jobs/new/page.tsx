@@ -25,8 +25,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { createJobPosting } from "./actions";
 import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function NewJobForm() {
+  const { data: session } = useSession();
+
+  if (!session) {
+    redirect("/");
+  }
+
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobSchema),
   });

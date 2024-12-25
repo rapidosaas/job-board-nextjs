@@ -24,3 +24,7 @@ export const jobFilterSchema = z.object({
 });
 
 export type JobFilterValues = z.infer<typeof jobFilterSchema>;
+
+export const singInSchema = z.object({
+  email: z.string().email(),
+});

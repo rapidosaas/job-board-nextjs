@@ -2,11 +2,9 @@ import { connectDB } from "@/lib/db";
 import Job from "@/lib/models/Job";
 import { NextResponse, NextRequest } from "next/server";
 
-connectDB();
-
 export async function POST(request: NextRequest) {
     try {
-
+    await connectDB();
     const body = await request.json();
     console.log(body);
     const job = await Job.findOne({ ...body });

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
+import { AuthProvider } from "@/components/providers";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Suspense } from "react";
@@ -32,11 +34,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AuthProvider>
         <Navbar />
         <Suspense fallback={<div>Loading...</div>}>
         {children}
         </Suspense>
         <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
