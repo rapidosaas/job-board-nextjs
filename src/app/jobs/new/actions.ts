@@ -2,7 +2,7 @@
 
 import { toSlug } from "@/lib/utils";
 import { nanoid } from "nanoid";
-import { connect } from "@/utils/config/db";
+import { connect } from "@/lib/db";
 import Job from "@/utils/models/Job";
 
 export async function createJobPosting(formData: FormData) {

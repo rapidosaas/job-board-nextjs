@@ -1,8 +1,8 @@
-import { connect } from "@/utils/config/db";
+import { connectDB } from "@/lib/db";
 import Job from "@/utils/models/Job";
 import { NextResponse, NextRequest } from "next/server";
 
-connect();
+connectDB();
 
 export async function POST(request: NextRequest) {
     try {
