@@ -4,7 +4,6 @@ import logo from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import tip from "@/assets/tipeee_tip_btn.svg";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
