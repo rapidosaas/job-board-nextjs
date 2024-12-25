@@ -5,11 +5,14 @@ import { Banknote, Briefcase } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Job = {
+  _id: number;
   title: string;
   description: string;
   company: string;
   type: string;
+  location: string;
   salary: number;
+  createdAt: Date;
 };
 
 interface JobPageProps {

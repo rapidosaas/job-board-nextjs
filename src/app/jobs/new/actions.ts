@@ -4,9 +4,18 @@ import { toSlug } from "@/lib/utils";
 import { nanoid } from "nanoid";
 import { connectDB } from "@/lib/db";
 import Job from "@/lib/models/Job";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function createJobPosting(formData: FormData) {
     try {
+        // Récupérer la session de l'utilisateur
+        const session = await getServerSession(authOptions);
+
+        if (!session) {
+            throw new Error("Utilisateur non authentifié");
+        }
+
         await connectDB();
 
         const values = Object.fromEntries(formData.entries());
@@ -21,11 +30,14 @@ export async function createJobPosting(formData: FormData) {
             salary: values.salary,
             description: values.description,
             createdAt: new Date(),
+            // Ajouter l'ID de l'utilisateur
+            userId: session.user.id,
         });
 
         console.log("Job posting created successfully");
 
     } catch (error) {
         console.error("Error creating job posting:", error);
+        throw error; // Relancer l'erreur pour la gestion côté client
     }
 }
