@@ -23,17 +23,6 @@ export default function Navbar() {
           <Button asChild>
             <Link href="/auth/sign-in">Login</Link>
           </Button>
-          <Link
-              href='https://fr.tipeee.com/nazimboudeffa'
-              className='cursor-pointer rounded text-brand-orange'
-          >
-              <Image
-                  src={tip}
-                  alt="tip"
-                  height={68}
-                  width={68} 
-              />
-          </Link>
           </div>
         </nav>
       </header>
@@ -53,17 +42,6 @@ export default function Navbar() {
           <Button onClick={()=>signOut()}>
             Logout
           </Button>
-          <Link
-              href='https://fr.tipeee.com/nazimboudeffa'
-              className='cursor-pointer rounded text-brand-orange'
-          >
-              <Image
-                  src={tip}
-                  alt="tip"
-                  height={68}
-                  width={68} 
-              />
-          </Link>
           </div>
         </nav>
       </header>
