@@ -41,7 +41,7 @@ function Dashboard() {
         // Fetch jobs posted by the current user
         const fetchUserJobs: () => Promise<Job[]> = async () => {
             const response = await fetch('/api/dashboard/jobs', {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -88,7 +88,7 @@ function Dashboard() {
 
             {userJobs.length === 0 ? (
                 <p className="text-center text-gray-500">
-                    Vous n'avez pas encore publié d'offres d'emploi.
+                    Vous n&apos;avez pas encore publié d&apos;offres d&apos;emploi.
                 </p>
             ) : (
                 <div className="space-y-4">
