@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { connectDB } from "@/lib/db";
 import Job from '@/lib/models/Job';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-export async function POST(request: NextRequest) {
+export async function GET() {
     try {
         const session = await getServerSession(authOptions);
 
