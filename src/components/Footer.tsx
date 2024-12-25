@@ -1,3 +1,5 @@
+import logo_dark from "@/assets/logo_dark.png";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -6,7 +8,9 @@ export default function Footer() {
       <div className="mx-auto max-w-5xl space-y-5 px-3 py-5">
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <div className="space-y-2">
-            <h3 className="text-xl font-semibold">Your Job Board</h3>
+            <Link href="/" className="flex items-center gap-3">
+              <Image src={logo_dark} height={40} alt="NeoFreelance Logo" />
+            </Link>
             <p className="text-sm text-muted-foreground">
               Connecting talents with opportunities
             </p>
