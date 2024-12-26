@@ -1,107 +1,118 @@
-"use client"
-import { useSession } from "next-auth/react"
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
-import { Button } from "@/components/ui/button";
-import { useState, useEffect } from 'react';
-import JobListItem from "@/components/JobListItem";
+"use client";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
-interface Job {
-    _id: number;
-    title: string;
-    description: string;
-    company: string;
-    type: string;
-    location: string;
-    salary: number;
-    createdAt: Date;
-}
+// Icons for dashboard blocks (using Heroicons or similar)
+import {
+  BriefcaseIcon,
+  StarIcon,
+  DocumentTextIcon,
+  ChatBubbleLeftRightIcon,
+  CogIcon,
+  UserGroupIcon,
+  GiftIcon,
+  TrophyIcon,
+} from "@heroicons/react/24/outline";
 
 function Dashboard() {
     const { data: session } = useSession();
-    const [userJobs, setUserJobs] = useState<Job[]>([]);
 
     useEffect(() => {
-        // Log the entire session object for debugging
-        console.log('Full Session Object:', session);
-        console.log('Session User:', session?.user);
-
         if (!session) {
             redirect('/');
-            return;
         }
-
-        // Ensure session.user exists and has an ID before fetching
-        if (!session?.user?.id) {
-            console.error('No user ID found in session');
-            console.error('Session Details:', JSON.stringify(session, null, 2));
-            return;
-        }
-
-        // Fetch jobs posted by the current user
-        const fetchUserJobs: () => Promise<Job[]> = async () => {
-            const response = await fetch('/api/dashboard/jobs', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            const data = await response.json();
-
-            // Log the entire response for debugging
-            console.log('API Response:', data);
-
-            // Check if response is successful and has jobs
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to fetch jobs');
-            }
-
-            // Ensure jobs is an array, default to empty array if undefined
-            return data.jobs || [];
-        };
-
-        fetchUserJobs()
-        .then(jobs => {
-            console.log('Fetched Jobs:', jobs);
-            setUserJobs(jobs);
-        })
-        .catch(error => {
-            console.error('Error fetching user jobs:', error);
-            // Optionally set an error state or show a user-friendly message
-            setUserJobs([]); // Prevent undefined errors
-        });
     }, [session]);
 
     if (!session) {
         return null;
     }
 
+    const dashboardBlocks = [
+        {
+            title: "My Published Jobs",
+            description: "View all job offers you've posted",
+            icon: <BriefcaseIcon className="w-12 h-12 text-blue-500" />,
+            count: 0, // Replace with actual count
+            link: "/jobs"
+        },
+        {
+            title: "My Applications",
+            description: "Track your job applications",
+            icon: <DocumentTextIcon className="w-12 h-12 text-green-500" />,
+            count: 0, // Replace with actual count
+            link: "/applications"
+        },
+        {
+            title: "Favorites",
+            description: "Jobs you've saved",
+            icon: <StarIcon className="w-12 h-12 text-yellow-500" />,
+            count: 0, // Replace with actual count
+            link: "/favorites"
+        },
+        {
+            title: "Messages",
+            description: "Your job-related communications",
+            icon: <ChatBubbleLeftRightIcon className="w-12 h-12 text-purple-500" />,
+            count: 0, // Replace with actual count
+            link: "/messages"
+        },
+        {
+            title: "Settings",
+            description: "Manage your account preferences",
+            icon: <CogIcon className="w-12 h-12 text-gray-500" />,
+            count: 0, // Replace with actual count
+            link: "/settings"
+        },
+        {
+            title: "Affiliates",
+            description: "Manage your business referrals",
+            icon: <UserGroupIcon className="w-12 h-12 text-teal-500" />,
+            count: 0, // Replace with actual count
+            link: "/affiliates"
+        },
+        {
+            title: "Sponsors",
+            description: "Support and donations",
+            icon: <GiftIcon className="w-12 h-12 text-pink-500" />,
+            count: 0, // Replace with actual count
+            link: "/sponsors"
+        },
+        {
+            title: "Gamification Level",
+            description: "Your mission success achievements",
+            icon: <TrophyIcon className="w-12 h-12 text-orange-500" />,
+            count: 0, // Replace with actual count
+            link: "/gamification"
+        }
+    ];
+
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Mes Offres Publiées</h1>
-                <Button>
-                    <Link href="/jobs/new">Publier une nouvelle offre</Link>
-                </Button>
+            <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                {dashboardBlocks.map((block, index) => (
+                    <div 
+                        key={index} 
+                        className="bg-white shadow-md rounded-lg p-6 hover:shadow-xl transition-all duration-300 cursor-pointer"
+                        onClick={() => window.location.href = block.link}
+                    >
+                        <div className="flex items-center mb-4">
+                            {block.icon}
+                            <div className="ml-4">
+                                <h2 className="text-xl font-semibold">{block.title}</h2>
+                                <p className="text-gray-500 text-sm">{block.description}</p>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <span className="text-2xl font-bold text-gray-700">{block.count}</span>
+                        </div>
+                    </div>
+                ))}
             </div>
-
-            {userJobs.length === 0 ? (
-                <p className="text-center text-gray-500">
-                    Vous n&apos;avez pas encore publié d&apos;offres d&apos;emploi.
-                </p>
-            ) : (
-                <div className="space-y-4">
-                    {userJobs.map((job) => (
-                        <JobListItem 
-                            key={job._id} 
-                            job={job}
-                        />
-                    ))}
-                </div>
-            )}
         </div>
     )
 }
 
-export default Dashboard
+export default Dashboard;
