@@ -1,107 +1,120 @@
-"use client"
-import { useSession } from "next-auth/react"
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
-import { Button } from "@/components/ui/button";
-import { useState, useEffect } from 'react';
-import JobListItem from "@/components/JobListItem";
+"use client";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
+import Card from "@/components/ui/card";
 
-interface Job {
-    _id: number;
-    title: string;
-    description: string;
-    company: string;
-    type: string;
-    location: string;
-    salary: number;
-    createdAt: Date;
-}
+// Icons for dashboard blocks (using Heroicons or similar)
+import {
+  BriefcaseIcon,
+  StarIcon,
+  DocumentTextIcon,
+  ChatBubbleLeftRightIcon,
+  CogIcon,
+  UserGroupIcon,
+  GiftIcon,
+  TrophyIcon,
+} from "@heroicons/react/24/outline";
 
 function Dashboard() {
     const { data: session } = useSession();
-    const [userJobs, setUserJobs] = useState<Job[]>([]);
 
     useEffect(() => {
-        // Log the entire session object for debugging
-        console.log('Full Session Object:', session);
-        console.log('Session User:', session?.user);
-
         if (!session) {
             redirect('/');
-            return;
         }
-
-        // Ensure session.user exists and has an ID before fetching
-        if (!session?.user?.id) {
-            console.error('No user ID found in session');
-            console.error('Session Details:', JSON.stringify(session, null, 2));
-            return;
-        }
-
-        // Fetch jobs posted by the current user
-        const fetchUserJobs: () => Promise<Job[]> = async () => {
-            const response = await fetch('/api/dashboard/jobs', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            const data = await response.json();
-
-            // Log the entire response for debugging
-            console.log('API Response:', data);
-
-            // Check if response is successful and has jobs
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to fetch jobs');
-            }
-
-            // Ensure jobs is an array, default to empty array if undefined
-            return data.jobs || [];
-        };
-
-        fetchUserJobs()
-        .then(jobs => {
-            console.log('Fetched Jobs:', jobs);
-            setUserJobs(jobs);
-        })
-        .catch(error => {
-            console.error('Error fetching user jobs:', error);
-            // Optionally set an error state or show a user-friendly message
-            setUserJobs([]); // Prevent undefined errors
-        });
     }, [session]);
 
     if (!session) {
         return null;
     }
 
+    const dashboardBlocks = [
+        {
+            title: "My Published Jobs",
+            description: "View all job offers you've posted",
+            icon: <BriefcaseIcon />,
+            count: 0,
+            link: "/jobs",
+            iconColor: "text-blue-500"
+        },
+        {
+            title: "My Applications",
+            description: "Track your job applications",
+            icon: <DocumentTextIcon />,
+            count: 0,
+            link: "/applications",
+            iconColor: "text-green-500"
+        },
+        {
+            title: "Favorites",
+            description: "Jobs you've saved",
+            icon: <StarIcon />,
+            count: 0,
+            link: "/favorites",
+            iconColor: "text-yellow-500"
+        },
+        {
+            title: "Messages",
+            description: "Your job-related communications",
+            icon: <ChatBubbleLeftRightIcon />,
+            count: 0,
+            link: "/messages",
+            iconColor: "text-purple-500"
+        },
+        {
+            title: "Settings",
+            description: "Manage your account preferences",
+            icon: <CogIcon />,
+            count: 0,
+            link: "/settings",
+            iconColor: "text-gray-500"
+        },
+        {
+            title: "Affiliates",
+            description: "Manage your business referrals",
+            icon: <UserGroupIcon />,
+            count: 0,
+            link: "/affiliates",
+            iconColor: "text-teal-500"
+        },
+        {
+            title: "Sponsors",
+            description: "Support and donations",
+            icon: <GiftIcon />,
+            count: 0,
+            link: "/sponsors",
+            iconColor: "text-pink-500"
+        },
+        {
+            title: "Gamification Level",
+            description: "Your mission success achievements",
+            icon: <TrophyIcon />,
+            count: 0,
+            link: "/gamification",
+            iconColor: "text-orange-500"
+        }
+    ];
+
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Mes Offres Publiées</h1>
-                <Button>
-                    <Link href="/jobs/new">Publier une nouvelle offre</Link>
-                </Button>
+            <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                {dashboardBlocks.map((block, index) => (
+                    <Card 
+                        key={index}
+                        title={block.title}
+                        description={block.description}
+                        icon={block.icon}
+                        count={block.count}
+                        link={block.link}
+                        iconColor={block.iconColor}
+                    />
+                ))}
             </div>
-
-            {userJobs.length === 0 ? (
-                <p className="text-center text-gray-500">
-                    Vous n&apos;avez pas encore publié d&apos;offres d&apos;emploi.
-                </p>
-            ) : (
-                <div className="space-y-4">
-                    {userJobs.map((job) => (
-                        <JobListItem 
-                            key={job._id} 
-                            job={job}
-                        />
-                    ))}
-                </div>
-            )}
         </div>
     )
 }
 
-export default Dashboard
+export default Dashboard;
