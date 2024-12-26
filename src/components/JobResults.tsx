@@ -100,7 +100,7 @@ function Pagination({
       page: page.toString(),
     });
 
-    return `/?${searchParams.toString()}`;
+    return `/jobs?${searchParams.toString()}`;
   }
 
   return (
