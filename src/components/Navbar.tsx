@@ -4,9 +4,15 @@ import logo from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useSession, signOut } from "next-auth/react";
+import avatarImage from "@/assets/avatar-1.png";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const router = useRouter();
+
   const { data: session } = useSession();
 
   const NavLinks = [
@@ -88,13 +94,53 @@ export default function Navbar() {
             {renderNavLinks(NavLinks)}
             {renderNavLinks(AuthenticatedNavLinks)}
           </div>
-          <Button 
-            onClick={() => signOut({ callbackUrl: '/' })} 
-            variant="destructive"
-            className="px-4 py-2"
-          >
-            Logout
-          </Button>
+          <DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Avatar className="size-10 cursor-pointer border border-border items-center">
+                <AvatarImage src={avatarImage.src} alt="@shadcn" />
+								<AvatarFallback>
+									{session?.user?.email
+										?.split(" ")
+										.map((n) => n[0])
+										.join("")}
+								</AvatarFallback>
+							</Avatar>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent className="w-56" align="end">
+							<DropdownMenuLabel className="flex flex-col">
+								My Account
+                <span className="text-xs font-normal text-muted-foreground">
+                  {session?.user?.email}
+                </span>
+							</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuGroup>
+								<DropdownMenuItem
+									className="cursor-pointer"
+									onClick={() => {
+										router.push("/dashboard");
+									}}
+								>
+									Settings
+								</DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push("/dashboard");
+                  }}
+                >
+                  Profile
+                </DropdownMenuItem>
+							</DropdownMenuGroup>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem
+								className="cursor-pointer"
+								onClick={() => signOut({ callbackUrl: '/' })}
+							>
+								Log out
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
         </div>
       </nav>
     </header>

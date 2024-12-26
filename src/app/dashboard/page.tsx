@@ -11,10 +11,8 @@ import {
   StarIcon,
   DocumentTextIcon,
   ChatBubbleLeftRightIcon,
-  CogIcon,
   UserGroupIcon,
   GiftIcon,
-  TrophyIcon,
 } from "@heroicons/react/24/outline";
 
 function Dashboard() {
@@ -68,18 +66,9 @@ function Dashboard() {
             iconColor: "text-purple-500"
         },
         {
-            id: "settings",
-            title: "Settings",
-            description: "Manage your account preferences",
-            icon: <CogIcon />,
-            count: 0,
-            link: "/dashboard",
-            iconColor: "text-gray-500"
-        },
-        {
-            id: "affiliates",
-            title: "Affiliates",
-            description: "Manage your business referrals",
+            id: "business",
+            title: "Business providers",
+            description: "Provide offers",
             icon: <UserGroupIcon />,
             count: 0,
             link: "/dashboard",
@@ -87,22 +76,13 @@ function Dashboard() {
         },
         {
             id: "sponsors",
-            title: "Sponsors",
+            title: "Sponsor Us",
             description: "Support and donations",
             icon: <GiftIcon />,
             count: 0,
             link: "/dashboard",
             iconColor: "text-pink-500"
         },
-        {
-            id: "gamification",
-            title: "Gamification Level",
-            description: "Your mission success achievements",
-            icon: <TrophyIcon />,
-            count: 0,
-            link: "/dashboard",
-            iconColor: "text-orange-500"
-        }
     ];
                         
     return (
