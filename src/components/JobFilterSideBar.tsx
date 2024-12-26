@@ -23,7 +23,7 @@ function filterJobs(formData: FormData) {
     ...(type && { type }),
   });
 
-  redirect(`/?${searchParams.toString()}`);
+  redirect(`/jobs/?${searchParams.toString()}`);
 }
 
 interface JobFilterSidebarProps {
