@@ -16,8 +16,8 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex flex-wrap gap-5 text-sm text-muted-foreground">
-            <Link href="https://www.linkedin.com/in/nazimboudeffa" target="_blank" className="hover:underline">
-              Contact
+            <Link href="https://github.com/rapidosaas" target="_blank" className="hover:underline">
+              GitHub
             </Link>
             <Link href="/tos" className="hover:underline">
               Terms of Service
