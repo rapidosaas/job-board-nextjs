@@ -1,5 +1,5 @@
 "use client"
-import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react";
 import { redirect } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import JobListItem from "@/components/JobListItem";
@@ -16,26 +16,14 @@ interface Job {
 }
 
 export default function MyPublishedJobs() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [userJobs, setUserJobs] = useState<Job[]>([]);
 
+    // Log the session object for debugging
+    console.log('status:', status);
+    console.log('Session my jobs:', session);
+
     useEffect(() => {
-        // Log the entire session object for debugging
-        console.log('Full Session Object:', session);
-        console.log('Session User:', session?.user);
-
-        if (!session) {
-            redirect('/');
-            return;
-        }
-
-        // Ensure session.user exists and has an ID before fetching
-        if (!session?.user?.id) {
-            console.error('No user ID found in session');
-            console.error('Session Details:', JSON.stringify(session, null, 2));
-            return;
-        }
-
         // Fetch jobs posted by the current user
         const fetchUserJobs: () => Promise<Job[]> = async () => {
             const response = await fetch('/api/dashboard/jobs', {
@@ -71,8 +59,19 @@ export default function MyPublishedJobs() {
         });
     }, [session]);
 
+    if (status === "loading") {
+        return <p>Loading...</p>;
+    }
+
     if (!session) {
-        return null;
+        redirect('/');
+        return;
+    }
+
+    if (!session?.user?.id) {
+        console.error('No user ID found in session');
+        console.error('Session Details:', JSON.stringify(session, null, 2));
+        return;
     }
 
     return (
