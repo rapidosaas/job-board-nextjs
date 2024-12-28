@@ -12,8 +12,11 @@ export const createJobSchema = z
       "Invalid job type",
     ),
     company: requiredString.max(100),
-    description: z.string().min(4, {message: "Description must be at least 10 characters.",}),
-    salary: numericRequiredString.max(9,"Number can't be longer than 9 digits",),
+    description: z.string().min(4, {message: "Description must be at least 10 characters.",}).max(250, {message: "Description can't be longer than 250 characters.",}),
+    salaryMin: numericRequiredString.max(9,"Number can't be longer than 9 digits",),
+    salaryMax: numericRequiredString.max(9,"Number can't be longer than 9 digits",),
+    location: requiredString.max(100),
+    skills: z.array(z.string().max(100)).max(3, "You can't add more than 3 skills"),
   })
 
 export type CreateJobValues = z.infer<typeof createJobSchema>;

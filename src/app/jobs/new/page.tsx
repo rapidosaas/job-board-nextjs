@@ -26,6 +26,9 @@ import { useForm } from "react-hook-form";
 import { createJobPosting } from "./actions";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
+import LocationInput from "@/components/LocationInput";
+import { X } from "lucide-react";
+import SkillsInput from "@/components/SkillsInput";
 
 export default function NewJobForm() {
   const { data: session } = useSession();
@@ -39,8 +42,10 @@ export default function NewJobForm() {
   });
 
   const {
-    control,
     handleSubmit,
+    watch,
+    control,
+    setValue,
     setFocus,
     formState: { isSubmitting },
   } = form;
@@ -50,7 +55,7 @@ export default function NewJobForm() {
 
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
-        formData.append(key, value);
+        formData.append(key, Array.isArray(value) ? value.join(", ") : value);
       }
     });
 
@@ -92,6 +97,22 @@ export default function NewJobForm() {
               )}
             />
             <FormField
+              control={control}
+              name="skills"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Skills</FormLabel>
+                  <FormControl>
+                    <SkillsInput
+                      onLocationSelected={field.onChange}
+                      ref={field.ref}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
               control={form.control}
               name="type"
               render={({ field }) => (
@@ -117,10 +138,23 @@ export default function NewJobForm() {
             />
             <FormField
               control={control}
-              name="salary"
+              name="salaryMin"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Daily rate</FormLabel>
+                  <FormLabel>Min daily rate</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="number" value={field.value ?? 0} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="salaryMax"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Max daily rate</FormLabel>
                   <FormControl>
                     <Input {...field} type="number" value={field.value ?? 0} />
                   </FormControl>
@@ -137,6 +171,35 @@ export default function NewJobForm() {
                   <FormControl>
                     <Input {...field} value={field.value ?? ''} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Office location</FormLabel>
+                  <FormControl>
+                    <LocationInput
+                      onLocationSelected={field.onChange}
+                      ref={field.ref}
+                    />
+                  </FormControl>
+                  {watch("location") && (
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setValue("location", "", { shouldValidate: true });
+                        }}
+                      >
+                        <X size={20} />
+                      </button>
+                      <span className="text-sm">{watch("location")}</span>
+                    </div>
+                  )}
                   <FormMessage />
                 </FormItem>
               )}
