@@ -77,12 +77,12 @@ export default function MyPublishedJobs() {
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Mes Offres Publiées</h1>
+                <h1 className="text-2xl font-bold">My posted jobs</h1>
             </div>
 
             {userJobs.length === 0 ? (
                 <p className="text-center text-gray-500">
-                    Vous n&apos;avez pas encore publié d&apos;offres d&apos;emploi.
+                    You have no posted job.
                 </p>
             ) : (
                 <div className="space-y-4">
