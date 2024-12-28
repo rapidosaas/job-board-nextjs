@@ -8,9 +8,7 @@ import { Button } from "@/components/ui/button";
 // Icons for dashboard blocks (using Heroicons or similar)
 import {
   BriefcaseIcon,
-  ChatBubbleLeftRightIcon,
   RocketLaunchIcon,
-  GiftIcon,
 } from "@heroicons/react/24/outline";
 
 function Dashboard() {
@@ -29,19 +27,11 @@ function Dashboard() {
     const dashboardBlocks = [
         {
             id: "published-jobs",
-            title: "My Published Jobs",
+            title: "My Posted Jobs",
             description: "View all job offers you've posted",
             icon: <BriefcaseIcon />,
             link: "/dashboard/my-published-jobs",
             iconColor: "text-blue-500"
-        },
-        {
-            id: "messages",
-            title: "Messages",
-            description: "Your job-related communications",
-            icon: <ChatBubbleLeftRightIcon />,
-            link: "/dashboard",
-            iconColor: "text-purple-500"
         },
         {
             id: "business",
@@ -50,14 +40,6 @@ function Dashboard() {
             icon: <RocketLaunchIcon />,
             link: "/dashboard",
             iconColor: "text-teal-500"
-        },
-        {
-            id: "sponsors",
-            title: "Sponsor Us",
-            description: "Support and donations",
-            icon: <GiftIcon />,
-            link: "/dashboard",
-            iconColor: "text-pink-500"
         },
     ];
                         
