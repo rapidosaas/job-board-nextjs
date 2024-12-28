@@ -16,7 +16,7 @@ type Job = {
 };
 
 interface JobPageProps {
-  slug: string;
+  readonly slug: string;
 }
 
 export default function JobPage({
