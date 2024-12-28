@@ -7,11 +7,13 @@ import JobListItemPublished from "@/components/JobListItemPublished";
 interface Job {
     _id: number;
     title: string;
+    skills: string[];
     description: string;
     company: string;
     type: string;
     location: string;
-    salary: number;
+    salaryMin: number;
+    salaryMax: number;
     createdAt: Date;
 }
 

@@ -14,11 +14,11 @@ function Hero () {
             className="mx-auto max-w-xl text-center ltr:sm:text-left rtl:sm:text-right"
             >
             <h2 className="text-2xl font-bold text-gray-900 md:text-3xl dark:text-white">
-                The best way to manage online business
+                Find your next Full Remote job
             </h2>
 
             <p className="hidden text-gray-500 md:mt-4 md:block dark:text-white">
-                Turn your business dreams into reality with our online business management application. Build a network, expand your reach, and achieve new heights of success.
+                Turn your job posts into business promotion.
             </p>
 
             <div className="mt-4 md:mt-8">
