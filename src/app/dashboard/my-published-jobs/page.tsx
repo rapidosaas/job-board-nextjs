@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react";
 import { redirect } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import JobListItem from "@/components/JobListItem";
+import JobListItemPublished from "@/components/JobListItemPublished";
 
 interface Job {
     _id: number;
@@ -87,10 +87,12 @@ export default function MyPublishedJobs() {
             ) : (
                 <div className="space-y-4">
                     {userJobs.map((job) => (
-                        <JobListItem 
+                        <div key={job._id}>
+                        <JobListItemPublished
                             key={job._id} 
                             job={job}
                         />
+                        </div>
                     ))}
                 </div>
             )}

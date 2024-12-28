@@ -15,6 +15,8 @@ export default function Navbar() {
 
   const { data: session } = useSession();
 
+  console.log('Session NavBar:', session);
+
   const NavLinks = [
     { 
       href: "/jobs", 
