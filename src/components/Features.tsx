@@ -66,7 +66,7 @@ export default function Features() {
 
             <div className="mt-12 text-center">
             <Link
-                href="/pricing"
+                href="/auth/sign-in"
                 className={`${buttonVariants({ variant: "default" })}`}
                 >
                 Get Started Today

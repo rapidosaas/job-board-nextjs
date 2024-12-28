@@ -23,7 +23,7 @@ function Hero () {
 
             <div className="mt-4 md:mt-8">
                 <Link
-                href="/pricing"
+                href="/auth/sign-in"
                 className={`${buttonVariants({ variant: "default" })}`}
                 >
                 Get Started Today
