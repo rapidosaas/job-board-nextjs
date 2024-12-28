@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
-import EmailProvider from 'next-auth/providers/email'
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
-import MongoClientPromise from '@/lib/mongodb'
+import EmailProvider from 'next-auth/providers/email';
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
+import MongoClientPromise from '@/lib/mongodb';
 
 // Add these type augmentations
 declare module "next-auth" {
@@ -39,5 +39,5 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     }
-  }
+  },
 };
