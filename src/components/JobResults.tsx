@@ -8,10 +8,12 @@ import { useEffect, useState } from "react";
 type Job = {
   _id: number;
   title: string;
+  skills: string[];
   company: string;
   type: string;
   location: string;
-  salary: number;
+  salaryMin: number;
+  salaryMax: number;
   createdAt: Date;
   slug: string;
 }
