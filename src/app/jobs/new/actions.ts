@@ -6,6 +6,7 @@ import { connectDB } from "@/lib/db";
 import Job from "@/lib/models/Job";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { Types } from "mongoose";
 
 export async function createJobPosting(formData: FormData) {
     try {
@@ -34,7 +35,7 @@ export async function createJobPosting(formData: FormData) {
             description: values.description,
             createdAt: new Date(),
             // Ajouter l'ID de l'utilisateur
-            userId: session.user.id,
+            userId: new Types.ObjectId(session.user.id),
         });
 
         console.log("Job posting created successfully");
