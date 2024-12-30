@@ -27,7 +27,7 @@ export default function Navbar() {
 
   console.log('Session NavBar:', session);
 
-  const [avatar, setAvatar] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string | null>(avatar1.src);
 
   useEffect(() => {
     if (session) {
@@ -36,9 +36,17 @@ export default function Navbar() {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         })
-        .then((response) => response.json())
+        .then((response) => { 
+          if (response.status === 404) {
+            // Profile not found, set a default avatar
+            setAvatar(avatar1.src);
+            return null;
+          }
+          return response.json();
+        })
         .then((data) => {
           console.log('Data:', data);
+          if (!data) return;
           setAvatar(data.avatar);
         })
         .catch((error) => {

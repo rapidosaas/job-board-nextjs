@@ -16,7 +16,9 @@ export default forwardRef<HTMLInputElement, LocationInputProps>(
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
     useEffect(() => {
-      setSelectedSkills(knownskills);
+      if (knownskills.length > 0) {
+        setSelectedSkills(knownskills);
+      }
     }, [knownskills]);
 
     const cities = useMemo(() => {

@@ -7,6 +7,10 @@ const profileSchema = new Schema(
             ref: "User",
             required: true,
         },
+        username: {
+            type: String,
+            required: true,
+        },
         name: {
             type: String,
             required: true,
