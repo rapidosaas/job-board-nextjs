@@ -28,7 +28,11 @@ export async function GET() {
             userId: session.user.id  // Utilisez directement l'ID de la session
         });
 
-        console.log('Profile:', profile.image);
+        if (!profile) {
+            return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
+        }
+
+        console.log('Avatar:', profile.image);
 
         return NextResponse.json({ avatar : profile.image }, { status: 200 });
 

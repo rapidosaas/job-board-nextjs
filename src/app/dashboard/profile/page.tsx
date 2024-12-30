@@ -66,8 +66,11 @@ export default function ProfileForm() {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Data:', data);
-                setDefaultValues(data.profile);
-                reset(data.profile);
+                const profileData = {
+                  ...data.profile
+                };
+                setDefaultValues(profileData);
+                reset(profileData);
             });
         } else {
             redirect("/");
@@ -110,6 +113,26 @@ export default function ProfileForm() {
             noValidate
             onSubmit={handleSubmit(onSubmit)}
           >
+            <FormField
+              control={control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      value={field.value ?? ''}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={control}
               name="name"
