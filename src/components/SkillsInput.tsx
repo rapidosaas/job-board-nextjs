@@ -1,18 +1,23 @@
 import { skillsList } from "@/lib/skills-input";
-import { forwardRef, useMemo, useState } from "react";
+import { forwardRef, useMemo, useState, useEffect } from "react";
 import { Input } from "./ui/input";
 import { X } from "lucide-react";
 
 interface LocationInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   onLocationSelected: (skills: string[]) => void;
+  knownskills?: string[];
 }
 
 export default forwardRef<HTMLInputElement, LocationInputProps>(
-  function SkillsInput({ onLocationSelected, ...props }, ref) {
+  function SkillsInput({ onLocationSelected, knownskills = [],...props }, ref) {
     const [locationSearchInput, setLocationSearchInput] = useState("");
     const [hasFocus, setHasFocus] = useState(false);
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+
+    useEffect(() => {
+      setSelectedSkills(knownskills);
+    }, [knownskills]);
 
     const cities = useMemo(() => {
       if (!locationSearchInput.trim()) return [];

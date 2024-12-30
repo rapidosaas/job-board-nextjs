@@ -15,6 +15,10 @@ const profileSchema = new Schema(
             type: String,
             required: true,
         },
+        salary: {
+            type: Number,
+            required: true,
+        },
         skills: {
             type: [String],
             required: true,

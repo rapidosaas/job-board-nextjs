@@ -3,8 +3,7 @@ interface Profile {
     userId: string;
     bio: string;
     skills: string[];
+    salary: number;
     image?: string;
-    createdAt?: string;
-    updatedAt?: string;
     }
 export default Profile;
