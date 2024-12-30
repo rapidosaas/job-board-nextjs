@@ -31,3 +31,13 @@ export type JobFilterValues = z.infer<typeof jobFilterSchema>;
 export const singInSchema = z.object({
   email: z.string().email(),
 });
+
+export const profileSchema = z.object({
+  name: requiredString.max(100),
+  bio: z.string().max(250),
+  skills: z.array(z.string().max(100)).max(3),
+  salary: z.number().int().min(1),
+  image: z.string(),
+});
+
+export type ProfileValues = z.infer<typeof profileSchema>;
