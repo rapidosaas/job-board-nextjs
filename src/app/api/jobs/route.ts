@@ -1,4 +1,4 @@
-import { connectDB } from "@/lib/db";
+import { connectDB } from "@/lib/config-db";
 import Job from "@/lib/models/Job";
 import { NextResponse, NextRequest } from "next/server";
 
@@ -19,6 +19,8 @@ export async function POST(request: NextRequest) {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(jobsPerPage);
+
+    console.log(jobs);
 
     // Obtenir le nombre total de jobs correspondant aux filtres
     const totalJobs = await Job.countDocuments({ ...filters });

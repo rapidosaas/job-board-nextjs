@@ -1,31 +1,38 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from "@/lib/db";
+import { connectDB } from "@/lib/config-db";
 import Profile from '@/lib/models/Profile';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/lib/auth';
+import { ObjectId } from 'mongodb';
 
 export async function GET() {
     try {
 
-        const session = await getServerSession(authOptions);
+        const session = await auth();
 
         // Vérification de la session utilisateur
-        console.log('Session:', session);
+        console.log('Session Avatar:', session?.user?.id);
 
         if (!session?.user) {
+            console.error('Unauthorized: No user in session');
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-            // Vérification supplémentaire de l'ID utilisateur
-            if (!session.user.id) {
+        // Vérification supplémentaire de l'ID utilisateur
+        if (!session.user.id) {
+            console.error('Forbidden: User ID not found in session');
             return NextResponse.json({ error: 'User ID not found' }, { status: 403 });
         }
 
         await connectDB();
 
+        // Convert userId to ObjectId
+        const userId = new ObjectId(session.user.id);
+
+        console.log('User ID:', userId);
+
         // Filtrer explicitement par userId
         const profile = await Profile.findOne({ 
-            userId: session.user.id  // Utilisez directement l'ID de la session
+            userId: userId  // Utilisez directement l'ID de la session
         });
 
         if (!profile) {

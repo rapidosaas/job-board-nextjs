@@ -4,12 +4,7 @@ import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import Card from "@/components/DashboardCard";
 import { Button } from "@/components/ui/button";
-
-// Icons for dashboard blocks (using Heroicons or similar)
-import {
-  BriefcaseIcon,
-  RocketLaunchIcon,
-} from "@heroicons/react/24/outline";
+import { BriefcaseBusiness, Rocket } from "lucide-react"
 
 function Dashboard() {
     const { data: session } = useSession();
@@ -29,7 +24,7 @@ function Dashboard() {
             id: "published-jobs",
             title: "My Posted Jobs",
             description: "View all job offers you've posted",
-            icon: <BriefcaseIcon />,
+            icon: <BriefcaseBusiness />,
             link: "/dashboard/my-published-jobs",
             iconColor: "text-blue-500"
         },
@@ -37,7 +32,7 @@ function Dashboard() {
             id: "business",
             title: "Business providers",
             description: "Apport d'affaires",
-            icon: <RocketLaunchIcon />,
+            icon: <Rocket />,
             link: "/dashboard",
             iconColor: "text-teal-500"
         },

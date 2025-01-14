@@ -1,6 +1,7 @@
 'use client'
  
 import { useSearchParams } from 'next/navigation'
+import { useEffect, useState, useMemo } from 'react'
 import JobFilterSidebar from "@/components/JobFilterSideBar";
 import JobResults from "@/components/JobResults";
 import { JobFilterValues } from "@/lib/validations";
@@ -17,20 +18,55 @@ function getTitle({ title, type }: JobFilterValues) {
 
   const titleSuffix = " jobs";
 
+  console.log(titlePrefix, titleSuffix);
+
   return `${titlePrefix}${titleSuffix}`;
 }
 
-export default function Home() {
+export default function Jobs() {
   
   const searchParams = useSearchParams();
   const title = searchParams.get('title');
   const type = searchParams.get('type');
   const page = searchParams.get('page');
 
-  const filterValues = {
+  const filterValues = useMemo(() => ({
     title: title ?? undefined,
     type: type ?? undefined,
-  };
+  }), [title, type]);
+
+  const [jobs, setJobs] = useState([]);
+  const [totalJobs, setTotalJobs] = useState(0);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...filterValues,
+            page: page ? parseInt(page) : 1,
+            jobsPerPage: 10,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setJobs(data.jobs);
+        setTotalJobs(data.total);
+      } catch (err) {
+        console.error('Failed to fetch jobs:', err);
+      }
+    };
+
+    fetchJobs();
+  }, [filterValues, page]);
 
   return (
     <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
@@ -40,10 +76,7 @@ export default function Home() {
       </div>
       <section className="flex flex-col gap-4 md:flex-row">
         <JobFilterSidebar defaultValues={filterValues} />
-        <JobResults
-          filterValues={filterValues}
-          page={page ? parseInt(page) : undefined}
-        />
+        <JobResults jobs={jobs} totalJobs={totalJobs} filterValues={filterValues} page={page ? parseInt(page) : 1} />
       </section>
     </main>
   );

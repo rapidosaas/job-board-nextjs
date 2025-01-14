@@ -1,4 +1,4 @@
-import { connectDB } from "@/lib/db";
+import { connectDB } from "@/lib/config-db";
 import Job from "@/lib/models/Job";
 import { NextResponse, NextRequest } from "next/server";
 

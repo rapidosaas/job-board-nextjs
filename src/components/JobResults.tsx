@@ -3,63 +3,26 @@ import { JobFilterValues } from "@/lib/validations";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import JobListItem from "./JobListItem";
-import { useEffect, useState } from "react";
-
-type Job = {
-  _id: number;
-  title: string;
-  skills: string[];
-  company: string;
-  type: string;
-  location: string;
-  salaryMin: number;
-  salaryMax: number;
-  createdAt: Date;
-  slug: string;
-}
-interface JobResultsProps {
-  filterValues: JobFilterValues;
-  page?: number;
-}
+import Job from "@/lib/types/job";
 
 const jobsPerPage = 5;
 
-/**
-const jobs = Array.from({ length: jobsPerPage }, (_, i) => ({
-  id: i,
-  title: "Senior Frontend Developer",
-  companyName: "Flow",
-  type: "Full-time",
-  locationType: "Full Remote",
-  location: "Worldwide",
-  salary: 250,
-  createdAt: new Date(),
-  slug: "senior-frontend-developer",
-}));
-*/
+interface JobResultsProps {
+  jobs: Job[];
+  totalJobs: number;
+  filterValues: {
+    title?: string;
+    type?: string;
+  };
+  page: number;
+}
 
 export default function JobResults({
+  jobs,
+  totalJobs,
   filterValues,
   page = 1,
 }: Readonly<JobResultsProps>) {
-
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [totalJobs, setTotalJobs] = useState(0);
-
-  useEffect(() => {
-    fetch("/api/jobs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...filterValues, page, jobsPerPage }),
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      setJobs(data.jobs);
-      setTotalJobs(data.total);
-    })
-    .catch((err) => console.log(err));
-  }, [filterValues, page]);
 
   return (
     <div className="grow space-y-4">

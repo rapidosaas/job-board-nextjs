@@ -1,32 +1,16 @@
-import { NextAuthOptions } from "next-auth";
-import EmailProvider from 'next-auth/providers/email';
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-import MongoClientPromise from '@/lib/mongodb';
-
-// Add these type augmentations
-declare module "next-auth" {
-  interface User {
-    id: string;
-  }
-  interface Session {
-    user: User & {
-      id: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-    }
-  }
-}
-
-export const authOptions: NextAuthOptions = {
+import NextAuth from "next-auth"
+import Nodemailer from "next-auth/providers/nodemailer"
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
+import client from "@/lib/db"
+ 
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: MongoDBAdapter(client),
   providers: [
-    EmailProvider({
+    Nodemailer({
       server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM
+      from: process.env.EMAIL_FROM,
     }),
   ],
-  adapter: MongoDBAdapter(MongoClientPromise),
-  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth/sign-in',
     verifyRequest: '/auth/verify-request',
@@ -35,9 +19,11 @@ export const authOptions: NextAuthOptions = {
     // Ensure the id is included in the session
     async session({ session, user }) {
       if (user) {
-        session.user.id = user.id;
+        console.log('Session User Id:', user.id);
+        console.log('Session User Session:', session.user);
+        session.user = user;
       }
       return session;
     }
   },
-};
+})

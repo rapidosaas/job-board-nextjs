@@ -7,17 +7,14 @@ import { useForm } from "react-hook-form"
 import { Loader2 } from "lucide-react"
 import { singInSchema } from "@/lib/validations"
 import * as z from "zod"
-
-import { useRouter } from 'next/navigation'
-import { signIn } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+
+import { signIn } from "next-auth/react"
 
 type FormData = z.infer<typeof singInSchema>
 
 export function UserAuthFormSignIn() {
-
-    const router = useRouter()
 
     const {
         register,
@@ -33,21 +30,10 @@ export function UserAuthFormSignIn() {
         setIsLoading(true)
 
         try {
-            const res = await signIn("email", {
-                email: formData.email,
-                redirect: false,
-            });
-            
-            if (res?.error) {
-                throw new Error(res.error)
-            }
-
+            signIn("nodemailer", { redirectTo: "/dashboard", ...formData })
             setIsLoading(false)
-
-            router.push('/auth/verify-request')
-
         } catch (error) {
-            console.error(error)
+            console.error("Error signing in with email", error)
             setIsLoading(false)
         }
     }

@@ -88,7 +88,7 @@ export default function ProfileForm() {
                 },
                 body: JSON.stringify({
                     ...values,
-                    userId: session?.user.id,
+                    userId: session?.user?.id,
                 }),
             });
         } catch (error) {

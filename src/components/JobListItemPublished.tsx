@@ -1,4 +1,4 @@
-import { formatMoney, relativeDate } from "@/lib/utils";
+import { formatMoney, relativeDate } from "@/lib/helpers";
 import { Banknote, Briefcase, Clock, Globe2 } from "lucide-react";
 import Badge from "./Badge";
 import { Button } from "@/components/ui/button";

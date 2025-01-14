@@ -1,6 +1,6 @@
 "use client";
 
-import { formatMoney } from "@/lib/utils";
+import { formatMoney } from "@/lib/helpers";
 import { Banknote } from "lucide-react";
 import { useEffect, useState } from "react";
 import Badge from "./Badge";

@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from "@/lib/db";
+import { connectDB } from "@/lib/config-db";
 import Job from '@/lib/models/Job';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { auth } from '@/lib/auth';
 
 export async function GET() {
     try {
-        const session = await getServerSession(authOptions);
+        const session = await auth();
 
-        if (!session || !session.user) {
+        if (!session?.user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -49,9 +48,9 @@ export async function GET() {
 
 export async function DELETE(request: NextRequest) {
     try {
-        const session = await getServerSession(authOptions);
+        const session = await auth();
 
-        if (!session || !session.user) {
+        if (!session?.user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 

@@ -1,17 +1,16 @@
 "use server";
 
-import { toSlug } from "@/lib/utils";
+import { toSlug } from "@/lib/helpers";
 import { nanoid } from "nanoid";
-import { connectDB } from "@/lib/db";
+import { connectDB } from "@/lib/config-db";
 import Job from "@/lib/models/Job";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { Types } from "mongoose";
 
 export async function createJobPosting(formData: FormData) {
     try {
         // Récupérer la session de l'utilisateur
-        const session = await getServerSession(authOptions);
+        const session = await auth();
 
         if (!session) {
             throw new Error("Utilisateur non authentifié");
@@ -35,7 +34,7 @@ export async function createJobPosting(formData: FormData) {
             description: values.description,
             createdAt: new Date(),
             // Ajouter l'ID de l'utilisateur
-            userId: new Types.ObjectId(session.user.id),
+            userId: new Types.ObjectId(session?.user?.id),
         });
 
         console.log("Job posting created successfully");
