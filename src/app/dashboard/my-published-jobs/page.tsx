@@ -3,19 +3,8 @@ import { useSession } from "next-auth/react";
 import { redirect } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import JobListItemPublished from "@/components/JobListItemPublished";
-
-interface Job {
-    _id: number;
-    title: string;
-    skills: string[];
-    description: string;
-    company: string;
-    type: string;
-    location: string;
-    salaryMin: number;
-    salaryMax: number;
-    createdAt: Date;
-}
+import Link from 'next/link';
+import Job from "@/lib/types/job";
 
 export default function MyPublishedJobs() {
     const { data: session, status } = useSession();
@@ -89,12 +78,12 @@ export default function MyPublishedJobs() {
             ) : (
                 <div className="space-y-4">
                     {userJobs.map((job) => (
-                        <div key={job._id}>
+                        <Link key={job._id.toString()} href={`/jobs/${job.slug}`} className="block">
                         <JobListItemPublished
                             key={job._id} 
                             job={job}
                         />
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}

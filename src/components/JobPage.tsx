@@ -4,19 +4,7 @@ import { formatMoney } from "@/lib/helpers";
 import { Banknote, Briefcase, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import Badge from "./Badge";
-
-type Job = {
-  _id: number;
-  title: string;
-  skills: string[];
-  description: string;
-  company: string;
-  type: string;
-  location: string;
-  salaryMin: number;
-  salaryMax: number;
-  createdAt: Date;
-};
+import Job from "@/lib/types/job";
 
 interface JobPageProps {
   readonly slug: string;
