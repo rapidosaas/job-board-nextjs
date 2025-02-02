@@ -1,5 +1,6 @@
-export default function FAQ() {
+export default function Faq() {
     return (
+        <section className="flex justify-center items-center text-center">
         <div className="space-y-4 max-w-xl">
         <details className="group rounded-lg bg-gray-50 p-6 [&_summary::-webkit-details-marker]:hidden" open>
             <summary className="flex cursor-pointer items-center justify-between gap-1.5 text-gray-900">
@@ -89,5 +90,6 @@ export default function FAQ() {
             </p>
         </details>
         </div>
+        </section>
     );
 }

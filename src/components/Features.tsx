@@ -6,11 +6,11 @@ export default function Features() {
     return (
         <section>
         <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
-        <div className="mx-auto max-w-lg text-center">
-            <h2 className="text-3xl font-bold sm:text-4xl">Kickstart your business promotion</h2>
+        <div className="mx-auto text-center">
+            <h2 className="text-3xl font-bold sm:text-4xl">We work on business promotion</h2>
 
             <p className="mt-4">
-                neoFreelance is the place to post jobs and find offers.
+                neoFreelance is the place to get your projects done
             </p>
             </div>
 
@@ -25,7 +25,7 @@ export default function Features() {
                 <h2 className="mt-4 text-xl font-bold">Post your job</h2>
 
                 <p className="mt-1 text-sm">
-                Start posting jobs now.
+                Start posting jobs now
                 </p>
             </div>
 
@@ -39,7 +39,7 @@ export default function Features() {
                 <h2 className="mt-4 text-xl font-bold">Search for freelances</h2>
 
                 <p className="mt-1 text-sm">
-                Find the best profiles.
+                Find the best profiles
                 </p>
             </div>
 
@@ -53,7 +53,7 @@ export default function Features() {
                 <h2 className="mt-4 text-xl font-bold">Provide business</h2>
 
                 <p className="mt-1 text-sm">
-                Make business with other freelances.
+                Make business with other freelances
                 </p>
             </div>
 
@@ -65,7 +65,7 @@ export default function Features() {
                 href="/auth/sign-in"
                 className={`${buttonVariants({ variant: "default" })}`}
                 >
-                Get Started Today
+                Get Started Now
             </Link>
             </div>
         </div>

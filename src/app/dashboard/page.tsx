@@ -33,7 +33,7 @@ function Dashboard() {
             title: "Business providers",
             description: "Apport d'affaires",
             icon: <Rocket />,
-            link: "/dashboard",
+            link: "/dashboard/business-providers",
             iconColor: "text-teal-500"
         },
     ];

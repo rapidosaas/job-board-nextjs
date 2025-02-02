@@ -21,8 +21,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "neoFreelance - Empowering Freelancers and Businesses",
-  description: "Discover NeoFreelance, the ultimate platform connecting talented freelancers with businesses worldwide. Find freelance jobs, post projects, and collaborate effortlessly on a secure and innovative marketplace designed for success.",
+  title: "neoFreelance",
+  description: "neoFreelance, a platform connecting talented freelancers with business providers. Post jobs, find freelance, and collaborate on projetcs.",
 };
 
 export default function RootLayout({
