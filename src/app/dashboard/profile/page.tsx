@@ -42,6 +42,7 @@ export default function ProfileForm() {
     }
 
     const [defaultValues, setDefaultValues] = useState<Profile | undefined>({} as Profile);
+    const [usernameError, setUsernameError] = useState("");
 
     const form = useForm<ProfileValues>({
         defaultValues,
@@ -79,7 +80,27 @@ export default function ProfileForm() {
 
     console.log('Default Values:', defaultValues);
 
+
+    const checkUsernameAvailability = async (username: string, userId: string | undefined) => {
+      const response = await fetch("/api/dashboard/check-username", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, userId }),
+      });
+      const data = await response.json();
+      return data.isAvailable;
+    };
+
     async function onSubmit(values: ProfileValues) {
+        const isAvailable = await checkUsernameAvailability(values.username, session?.user?.id);
+        if (!isAvailable) {
+          setUsernameError('Username is already taken');
+          return;
+        } else {
+          setUsernameError("");
+        }
         try {
             await fetch("/api/dashboard/profile", {
                 method: "POST",
@@ -129,7 +150,7 @@ export default function ProfileForm() {
                       }}
                     />
                   </FormControl>
-                  <FormMessage />
+                  {usernameError && <FormMessage>{usernameError}</FormMessage>}
                 </FormItem>
               )}
             />
