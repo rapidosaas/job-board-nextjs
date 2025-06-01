@@ -12,15 +12,15 @@ import {
   SelectValue, 
 } from "./ui/select";
 
-// Fonction pour filtrer les emplois
 function filterJobs(formData: FormData) {
+
   const values = Object.fromEntries(formData.entries());
+
   const { title, type } = jobFilterSchema.parse(values);
 
-  // Si le filtre de type est "all", on ne l'ajoute pas aux paramètres de recherche
   const searchParams = new URLSearchParams({
     ...(title && { title: title.trim() }),
-    ...(type && type !== "all" && { type }),  // N'ajoute le paramètre `type` que si ce n'est pas "all"
+    ...(type && { type }),
   });
 
   redirect(`/jobs/?${searchParams.toString()}`);
@@ -51,17 +51,12 @@ export default function JobFilterSidebar({
             <Label htmlFor="type">Type</Label>
             <Select
               name="type"
-              defaultValue={defaultValues.type ?? "all"}  // Valeur par défaut à "all" pour "All types"
+              defaultValue={defaultValues.type ?? "" }
             >
               <SelectTrigger>
                 <SelectValue placeholder="All types" />
               </SelectTrigger>
               <SelectContent>
-                {/* Option "All types" avec la valeur "all" */}
-                <SelectItem key="all" value="all">
-                  All types
-                </SelectItem>
-
                 {jobTypes.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type}

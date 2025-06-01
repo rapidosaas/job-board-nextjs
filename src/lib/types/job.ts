@@ -9,6 +9,10 @@ interface Job {
     location: string;
     salaryMin: number;
     salaryMax: number;
+    status: 'open' | 'closed' | 'draft';
+    percentage: number;
+    urlToApply: string;
     createdAt: Date;
+    userId: string; // Assuming userId is a string, adjust if it's an ObjectId
 }
 export default Job;

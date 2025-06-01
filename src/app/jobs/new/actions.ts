@@ -35,6 +35,9 @@ export async function createJobPosting(formData: FormData) {
             createdAt: new Date(),
             // Ajouter l'ID de l'utilisateur
             userId: new Types.ObjectId(session?.user?.id),
+            urlToApply: values.urlToApply ? String(values.urlToApply) : undefined,
+            percentage: values.percentage ? Number(values.percentage) : undefined,
+            status: values.status,
         });
 
         console.log("Job posting created successfully");

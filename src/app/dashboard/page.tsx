@@ -2,65 +2,47 @@
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
-import Card from "@/components/DashboardCard";
 import { Button } from "@/components/ui/button";
-import { BriefcaseBusiness, Rocket } from "lucide-react"
+import MyJobListings from '@/components/MyJobListings';
 
 function Dashboard() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
 
     useEffect(() => {
+        if (status === "loading") return; // Wait for session to load
         if (!session) {
             redirect('/');
         }
-    }, [session]);
+    }, [session, status]);
 
+    if (status === "loading") {
+        return null; // Or a loading spinner
+    }
     if (!session) {
         return null;
     }
 
-    const dashboardBlocks = [
-        {
-            id: "published-jobs",
-            title: "My Posted Jobs",
-            description: "View all job offers you've posted",
-            icon: <BriefcaseBusiness />,
-            link: "/dashboard/my-published-jobs",
-            iconColor: "text-blue-500"
-        },
-        {
-            id: "business",
-            title: "Business providers",
-            description: "Apport d'affaires",
-            icon: <Rocket />,
-            link: "/dashboard/business-providers",
-            iconColor: "text-teal-500"
-        },
-    ];
-                        
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="flex justify-between items-center mb-8">
-                <div className="flex justify-start mb-8">
-                    <Button 
-                        onClick={() => redirect('/jobs/new')} 
-                        className="px-4 py-2"
-                    >
-                        Post a Job
-                    </Button>
-                </div>
+            <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+
+            {/* Post a New Job Section */}
+            <div className="mb-8 p-6 border rounded-lg shadow-md bg-slate-50">
+                <h2 className="text-2xl font-semibold mb-3">Post a New Job</h2>
+                <p className="mb-5 text-gray-600">Click here to create a new job listing and find the perfect candidate.</p>
+                <Button
+                    onClick={() => redirect('/jobs/new')}
+                    className="px-6 py-3 text-base" // Increased padding and text size for button
+                >
+                    Post a Job
+                </Button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                {dashboardBlocks.map((block) => (
-                    <Card 
-                        key={block.id}
-                        title={block.title}
-                        description={block.description}
-                        icon={block.icon}
-                        link={block.link}
-                        iconColor={block.iconColor}
-                    />
-                ))}
+
+            {/* My Job Listings Section */}
+            <div className="mb-8 border rounded-lg shadow-md bg-slate-50">
+                {/* The h2 and MyJobListings component will provide their own padding */}
+                <h2 className="text-2xl font-semibold mb-3 p-6 pb-0">My Job Listings</h2>
+                <MyJobListings />
             </div>
         </div>
     )

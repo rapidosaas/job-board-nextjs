@@ -1,5 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateJobValues, createJobSchema } from "@/lib/validations";
 import LoadingButton from "@/components/LoadingButton";
 import {
   Form,
@@ -12,78 +18,97 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { jobTypes } from "@/lib/job-types";
-import { jobStatus } from "@/lib/job-status";
-import { CreateJobValues, createJobSchema } from "@/lib/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { createJobPosting } from "./actions";
-import { redirect } from "next/navigation";
-import { useSession } from "next-auth/react";
 import LocationInput from "@/components/LocationInput";
 import { X } from "lucide-react";
 import SkillsInput from "@/components/SkillsInput";
+import Job from "@/lib/types/job";
 
-export default function NewJobForm() {
+export default function EditJobPage() {
   const { data: session } = useSession();
-
-  if (!session) {
-    redirect("/");
-  }
+  const router = useRouter();
+  const params = useParams();
+  const slug = params?.slug as string;
+  const [loadingJob, setLoadingJob] = useState(true);
+  const [checkedSession, setCheckedSession] = useState(false);
+  const [defaultValues, setDefaultValues] = useState<Job | undefined>({} as Job);
 
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobSchema),
   });
-
   const {
     handleSubmit,
     watch,
     control,
     setValue,
     setFocus,
+    reset,
     formState: { isSubmitting },
   } = form;
 
+  useEffect(() => {
+    if (!slug) return;
+    setLoadingJob(true);
+    fetch("/api/job", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.job) {
+          reset({
+            ...data.job,
+            salaryMin: data.job.salaryMin ?? '',
+            salaryMax: data.job.salaryMax ?? '',
+            percentage: data.job.percentage ?? '',
+            urlToApply: data.job.urlToApply ?? '',
+            status: data.job.status ?? 'draft',
+            skills: Array.isArray(data.job.skills) ? data.job.skills : [],
+          });
+        }
+        setDefaultValues(data.job);
+      })
+      .finally(() => setLoadingJob(false));
+  }, [slug, reset]);
+
   async function onSubmit(values: CreateJobValues) {
-    const formData = new FormData();
-
-    Object.entries(values).forEach(([key, value]) => {
-      if (value) {
-        formData.append(key, Array.isArray(value) ? value.join(", ") : String(value));
-      }
+    await fetch("/api/job", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug, ...values }),
     });
-
-    try {
-      await createJobPosting(formData);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      redirect("/job-submitted")
-    }
+    router.push("/dashboard");
   }
+
+  useEffect(() => {
+    if (session === undefined) return; // Wait for session to resolve
+    if (!session) {
+      router.push("/");
+    } else {
+      setCheckedSession(true);
+    }
+  }, [session, router]);
+  if (!checkedSession) return null;
+  if (loadingJob) return <div className="p-4 text-center">Loading job...</div>;
 
   return (
     <main className="m-auto my-10 max-w-4xl space-y-10">
       <div className="space-y-5 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Find your Full Remote developer</h1>
-        <p className="text-muted-foreground">
-          Get your job posting seen by thousands of job seekers.
-        </p>
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Edit Job</h1>
+        <p className="text-muted-foreground">Update your job posting details.</p>
       </div>
       <div className="space-y-6 rounded-lg border p-4">
         <Form {...form}>
-          <form
-            className="space-y-4"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="space-y-4" noValidate onSubmit={handleSubmit(onSubmit)}>
+            {/* ...existing form fields, identical to new job form... */}
             <FormField
               control={control}
               name="title"
@@ -91,7 +116,7 @@ export default function NewJobForm() {
                 <FormItem>
                   <FormLabel>Job title</FormLabel>
                   <FormControl>
-                    <Input {...field} value={field.value ?? ''}/>
+                    <Input {...field} value={field.value ?? ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,6 +132,7 @@ export default function NewJobForm() {
                     <SkillsInput
                       onLocationSelected={field.onChange}
                       ref={field.ref}
+                      knownskills={defaultValues?.skills}
                     />
                   </FormControl>
                   <FormMessage />
@@ -114,7 +140,7 @@ export default function NewJobForm() {
               )}
             />
             <FormField
-              control={form.control}
+              control={control}
               name="type"
               render={({ field }) => (
                 <FormItem>
@@ -127,9 +153,9 @@ export default function NewJobForm() {
                     </FormControl>
                     <SelectContent>
                       {jobTypes.map((type) => (
-                            <SelectItem key={type} value={type}>
-                              {type}
-                            </SelectItem>
+                        <SelectItem key={type} value={type}>
+                          {type}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -196,10 +222,7 @@ export default function NewJobForm() {
                 <FormItem>
                   <FormLabel>Office location</FormLabel>
                   <FormControl>
-                    <LocationInput
-                      onLocationSelected={field.onChange}
-                      ref={field.ref}
-                    />
+                    <LocationInput onLocationSelected={field.onChange} ref={field.ref} />
                   </FormControl>
                   {watch("location") && (
                     <div className="flex items-center gap-1">
@@ -223,9 +246,7 @@ export default function NewJobForm() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <Label onClick={() => setFocus("description")}>
-                    Description
-                  </Label>
+                  <Label onClick={() => setFocus("description")}>Description</Label>
                   <FormControl>
                     <Textarea
                       placeholder="Tell us a little bit about this job"
@@ -238,7 +259,7 @@ export default function NewJobForm() {
               )}
             />
             <FormField
-              control={form.control}
+              control={control}
               name="status"
               render={({ field }) => (
                 <FormItem>
@@ -250,11 +271,9 @@ export default function NewJobForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {jobStatus.map((status) => (
-                            <SelectItem key={status} value={status}>
-                              {status}
-                            </SelectItem>
-                      ))}
+                      <SelectItem value="open">Open</SelectItem>
+                      <SelectItem value="closed">Closed</SelectItem>
+                      <SelectItem value="draft">Draft</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -280,7 +299,7 @@ export default function NewJobForm() {
               )}
             />
             <LoadingButton type="submit" loading={isSubmitting}>
-              Submit
+              Update
             </LoadingButton>
           </form>
         </Form>

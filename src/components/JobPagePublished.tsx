@@ -10,7 +10,7 @@ interface JobPageProps {
   readonly slug: string;
 }
 
-export default function JobPage({
+export default function JobPagePublished({
   slug,
 }: JobPageProps) {
 

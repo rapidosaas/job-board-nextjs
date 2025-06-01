@@ -47,6 +47,21 @@ const jobSchema = new Schema(
         type: Date,
         default: Date.now
         },
+        urlToApply: {
+        type: String,
+        required: true,
+        },
+        percentage: {
+            type: Number,
+            min: 0,
+            max: 100,
+            default: 0,
+        },
+        status: {
+            type: String,
+            enum: ["open", "closed", "draft"],
+            default: "draft",
+        },
     },
     { timestamps: true }
     );

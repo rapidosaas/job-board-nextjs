@@ -17,6 +17,12 @@ export const createJobSchema = z
     salaryMax: numericRequiredString.max(9,"Number can't be longer than 9 digits",),
     location: requiredString.max(100),
     skills: z.array(z.string().max(100)).max(3, "You can't add more than 3 skills"),
+    urlToApply: z.string().url("Must be a valid URL").optional(),
+    percentage: z.preprocess(
+      (val) => (val === '' || val === undefined || val === null ? undefined : Number(val)),
+      z.number().int().min(0, "Percentage must be at least 0").max(100, "Percentage can't be more than 100")
+    ),
+    status: z.enum(["open", "closed", "draft"]).default("draft"),
   })
 
 export type CreateJobValues = z.infer<typeof createJobSchema>;

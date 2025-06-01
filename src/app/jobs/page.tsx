@@ -50,6 +50,7 @@ export default function Jobs() {
             ...filterValues,
             page: page ? parseInt(page) : 1,
             jobsPerPage: 10,
+            status: 'open', // Only fetch open jobs
           }),
         });
 

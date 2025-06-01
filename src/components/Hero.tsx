@@ -8,20 +8,23 @@ function Hero () {
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="text-center">
             <h1 className="text-balance text-xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
-              Welcome to your Full Remote Job Board
+              Find Your Next Remote Opportunity or Top Freelance Talent
             </h1>
             <p className="mt-8 text-pretty text-lg font-medium text-gray-700 sm:text-xl/8">
-              Post jobs and find freelancers from all around the world
-            </p>
-            <p className="mt-2 text-pretty italic text-gray-500">
-              with a focus on <span className="text-sky-500">auto-entrepreneurs</span> from France and Algeria
+              neoFreelance connects businesses with skilled freelancers and helps professionals find fulfilling remote work. We specialize in opportunities for auto-entrepreneurs, offering a seamless platform for posting jobs and discovering talent worldwide.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link
                 href="/auth/sign-in"
                 className={`${buttonVariants({ variant: "default" })}`}
               >
-                Get started
+                Find Talent
+              </Link>
+              <Link
+                href="/jobs"
+                className={`${buttonVariants({ variant: "outline" })}`}
+              >
+                Find Work
               </Link>
             </div>
           </div>

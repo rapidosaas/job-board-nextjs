@@ -1,7 +1,6 @@
 import { formatMoney, relativeDate } from "@/lib/helpers";
-import { Banknote, Briefcase, Clock, Globe2 } from "lucide-react";
+import { Banknote, Briefcase, Clock, Globe2, Trash } from "lucide-react";
 import Badge from "./Badge";
-import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 
 interface JobListItemProps {
@@ -57,47 +56,44 @@ export default function JobListItemPublished({
 
   return (
     <div className="flex justify-between gap-3">
-    <div>
-      <Button variant="destructive" onClick={() => deleteJob(_id)}>Delete</Button>
-    </div>
-    <article className="flex flex-row gap-3 rounded-lg border p-5 w-full">
-      <div id={_id.toString()} className="flex-grow space-y-3">
-        <div>
-          <h2 className="text-xl font-medium">{title}</h2>
-          <p className="text-muted-foreground">{company}</p>
+      <article className="flex flex-row gap-3 rounded-lg border p-5 w-full">
+        <div id={_id.toString()} className="flex-grow space-y-3">
+          <div>
+            <h2 className="text-xl font-medium">{title}</h2>
+            <p className="text-muted-foreground">{company}</p>
+          </div>
+          <div className="text-muted-foreground">
+            <p className="flex items-center gap-1.5">
+              <Globe2 size={16} className="shrink-0" />
+              {location || "Worldwide"}
+            </p>
+            <p className="flex items-center gap-1.5">
+              <Briefcase size={16} className="shrink-0" />
+              {type}
+            </p>
+            <p className="flex items-center gap-1.5">
+              <Banknote size={16} className="shrink-0" />
+              {formatMoney(salaryMin)} - {formatMoney(salaryMax)}
+            </p>
+            <p className="flex items-center gap-1">
+              {skills.map((skill) => (
+                <Badge key={skill}>{skill}</Badge>
+              ))}
+            </p>
+            <p className="flex items-center gap-1.5 sm:hidden">
+              <Clock size={16} className="shrink-0" />
+              {relativeDate(createdAt)}
+            </p>
+          </div>
         </div>
-        <div className="text-muted-foreground">
-          <p className="flex items-center gap-1.5">
-            <Globe2 size={16} className="shrink-0" />
-            {location || "Worldwide"}
-          </p>
-          <p className="flex items-center gap-1.5">
-            <Briefcase size={16} className="shrink-0" />
-            {type}
-          </p>
-          <p className="flex items-center gap-1.5">
-            <Banknote size={16} className="shrink-0" />
-            {formatMoney(salaryMin)} - {formatMoney(salaryMax)}
-          </p>
-          <p className="flex items-center gap-1">
-            {skills.map((skill) => (
-              <Badge key={skill}>{skill}</Badge>
-            ))}
-          </p>
-          <p className="flex items-center gap-1.5 sm:hidden">
-            <Clock size={16} className="shrink-0" />
+        <div className="hidden shrink-0 flex-col items-end justify-between sm:flex">
+          <Trash size={16} className="shrink-0 text-red-500 hover:text-red-700" onClick={() => deleteJob(_id)}/>
+          <span className="flex items-center gap-1.5 text-muted-foreground">
+            <Clock size={16} />
             {relativeDate(createdAt)}
-          </p>
+          </span>
         </div>
-      </div>
-      <div className="hidden shrink-0 flex-col items-end justify-between sm:flex">
-        <Badge>Full Remote</Badge>
-        <span className="flex items-center gap-1.5 text-muted-foreground">
-          <Clock size={16} />
-          {relativeDate(createdAt)}
-        </span>
-      </div>
-    </article>
+      </article>
     </div>
   );
 }

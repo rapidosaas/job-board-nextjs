@@ -36,7 +36,10 @@ export async function GET() {
                 salaryMin: job.salaryMin,
                 salaryMax: job.salaryMax,
                 createdAt: job.createdAt,
-                slug: job.slug
+                slug: job.slug,
+                status: job.status,
+                urlToApply: job.urlToApply,
+                percentage: job.percentage,
             }))
         });
 
