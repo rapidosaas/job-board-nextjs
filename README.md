@@ -32,8 +32,8 @@ L'installation peut aussi se faire avec un PaaS comme [DokPloy](https://github.c
 1. Clonez le dépôt :
 
    ```bash
-   git clone https://github.com/nazimboudeffa/job-board-next15-mongodb.git
-   cd job-board-next15-mongodb
+   git clone https://github.com/rapidosaas/job-board-nextjs.git
+   cd job-board-nextjs
 
 2. Installez les dépendances :
 
