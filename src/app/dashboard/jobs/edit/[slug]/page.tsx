@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,6 +30,7 @@ import LocationInput from "@/components/LocationInput";
 import { X } from "lucide-react";
 import SkillsInput from "@/components/SkillsInput";
 import Job from "@/lib/types/job";
+import { updateJobPosting } from "./actions";
 
 export default function EditJobPage() {
   const { data: session } = useSession();
@@ -56,7 +57,7 @@ export default function EditJobPage() {
   useEffect(() => {
     if (!slug) return;
     setLoadingJob(true);
-    fetch("/api/job", {
+    fetch("/api/dashboard/job", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ slug }),
@@ -66,12 +67,6 @@ export default function EditJobPage() {
         if (data.job) {
           reset({
             ...data.job,
-            salaryMin: data.job.salaryMin ?? '',
-            salaryMax: data.job.salaryMax ?? '',
-            percentage: data.job.percentage ?? '',
-            urlToApply: data.job.urlToApply ?? '',
-            status: data.job.status ?? 'draft',
-            skills: Array.isArray(data.job.skills) ? data.job.skills : [],
           });
         }
         setDefaultValues(data.job);
@@ -80,12 +75,25 @@ export default function EditJobPage() {
   }, [slug, reset]);
 
   async function onSubmit(values: CreateJobValues) {
-    await fetch("/api/job", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug, ...values }),
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, Array.isArray(value) ? value.join(", ") : String(value));
+      }
     });
-    router.push("/dashboard");
+    // Add job _id to FormData for backend update
+    if (defaultValues?._id) {
+      formData.append('_id', defaultValues._id.toString());
+    }
+
+    try {
+      await updateJobPosting(formData);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      redirect("/job-edited")
+    }
   }
 
   useEffect(() => {

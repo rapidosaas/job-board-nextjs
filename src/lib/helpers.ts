@@ -3,7 +3,7 @@ import { formatDistanceToNowStrict } from "date-fns";
 export function formatMoney(amount: number) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "USD",
+      currency: "EUR",
     }).format(amount);
   }
   

@@ -3,7 +3,6 @@
 import { formatMoney } from "@/lib/helpers";
 import { Banknote } from "lucide-react";
 import { useEffect, useState } from "react";
-import Badge from "./Badge";
 import Profile from "@/lib/types/profile";
 
 interface JobPageProps {
@@ -17,7 +16,7 @@ export default function JobPage({
   const [profile, setProfile] = useState<Profile | undefined>();
 
     useEffect(() => {
-        fetch("/api/username", {
+        fetch("/api/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username }),
@@ -47,7 +46,12 @@ export default function JobPage({
             </p>
             <p className="flex items-center gap-1">
               {profile?.skills.map((skill: string) => (
-                <Badge key={skill}>{skill}</Badge>
+                <span
+                  key={skill}
+                  className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-muted/80 transition"
+                >
+                  {skill}
+                </span>
               ))}
             </p>
           </div>

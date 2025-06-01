@@ -2,7 +2,6 @@ import { z } from "zod";
 import { jobTypes } from "./job-types";
 
 const requiredString = z.string().min(1, "Required");
-const numericRequiredString = requiredString.regex(/^\d+$/, "Must be a number");
 
 export const createJobSchema = z
   .object({
@@ -13,8 +12,14 @@ export const createJobSchema = z
     ),
     company: requiredString.max(100),
     description: z.string().min(4, {message: "Description must be at least 10 characters.",}).max(250, {message: "Description can't be longer than 250 characters.",}),
-    salaryMin: numericRequiredString.max(9,"Number can't be longer than 9 digits",),
-    salaryMax: numericRequiredString.max(9,"Number can't be longer than 9 digits",),
+    salaryMin: z.preprocess(
+      (val) => val === '' || val === undefined || val === null ? undefined : Number(val),
+      z.number().int().min(0, "Min rate must be at least 0").max(999999999, "Number can't be longer than 9 digits")
+    ),
+    salaryMax: z.preprocess(
+      (val) => val === '' || val === undefined || val === null ? undefined : Number(val),
+      z.number().int().min(0, "Max rate must be at least 0").max(999999999, "Number can't be longer than 9 digits")
+    ),
     location: requiredString.max(100),
     skills: z.array(z.string().max(100)).max(3, "You can't add more than 3 skills"),
     urlToApply: z.string().url("Must be a valid URL").optional(),

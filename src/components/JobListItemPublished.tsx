@@ -1,6 +1,5 @@
 import { formatMoney, relativeDate } from "@/lib/helpers";
 import { Banknote, Briefcase, Clock, Globe2, Trash } from "lucide-react";
-import Badge from "./Badge";
 import { redirect } from "next/navigation";
 
 interface JobListItemProps {
@@ -77,7 +76,12 @@ export default function JobListItemPublished({
             </p>
             <p className="flex items-center gap-1">
               {skills.map((skill) => (
-                <Badge key={skill}>{skill}</Badge>
+                <span
+                  key={skill}
+                  className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-muted/80 transition"
+                >
+                  {skill}
+                </span>
               ))}
             </p>
             <p className="flex items-center gap-1.5 sm:hidden">

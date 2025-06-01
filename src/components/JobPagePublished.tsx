@@ -3,7 +3,6 @@
 import { formatMoney } from "@/lib/helpers";
 import { Banknote, Briefcase, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
-import Badge from "./Badge";
 import Job from "@/lib/types/job";
 
 interface JobPageProps {
@@ -45,6 +44,16 @@ export default function JobPagePublished({
               <MapPin size={16} className="shrink-0" />
               {job?.location ?? "Worldwide"}
             </p>
+            <p className="flex items-center gap-1">
+              {job?.skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-muted/80 transition"
+                >
+                  {skill}
+                </span>
+              ))}
+            </p>
             <p className="flex items-center gap-1.5">
               <Briefcase size={16} className="shrink-0" />
               {job?.type}
@@ -52,11 +61,6 @@ export default function JobPagePublished({
             <p className="flex items-center gap-1.5">
               <Banknote size={16} className="shrink-0" />
               {formatMoney(job?.salaryMin ?? 0)} - {formatMoney(job?.salaryMax ?? 0)}
-            </p>
-            <p className="flex items-center gap-1">
-              {job?.skills.map((skill) => (
-                <Badge key={skill}>{skill}</Badge>
-              ))}
             </p>
           </div>
         </div>
