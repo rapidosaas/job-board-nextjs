@@ -4,6 +4,7 @@ interface Profile {
     username: string;
     name: string;
     bio: string;
+    website: string;
     skills: string[];
     salary: number;
     image?: string;

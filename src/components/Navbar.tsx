@@ -62,15 +62,15 @@ export default function Navbar() {
 
   const NavLinks = [
     { 
-      href: "/jobs", 
-      label: "Jobs",
+      href: "/about", 
+      label: "About",
     },
   ];
 
   const AuthenticatedNavLinks = [
     { 
-      href: "/jobs", 
-      label: "Jobs",
+      href: "/docs", 
+      label: "Docs",
     },
   ];
 

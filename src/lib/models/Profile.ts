@@ -15,6 +15,10 @@ const profileSchema = new Schema(
             type: String,
             required: true,
         },
+        website: {
+            type: String,
+            required: false, // LinkedIn is optional,
+        },
         bio: {
             type: String,
             required: true,

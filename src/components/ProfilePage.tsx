@@ -56,30 +56,52 @@ export default function JobPage({
   if (error) return <div className="p-4 text-center text-red-600">{error}</div>;
 
   return (
-    <section className="grid gap-6 max-w-[400px] md:max-w-[500px] mx-auto">
-      <div className="rounded-2xl border p-10 text-center shadow-lg">
-        <Image 
-          src={getAvatarSource(profile?.image ?? null)}
-          alt={`${profile?.name}'s avatar`}
-          width={100}
-          height={100}
-          className="mx-auto mb-4 h-24 w-24 rounded-full object-cover"        
-        />
-        <h1 className="text-xl font-semibold text-slate-800">{profile?.name}</h1>
-        <h2 className="font-semibold text-slate-500">{formatMoney(profile?.salary ?? 0)}</h2>
-        <p className="inline-block">
+    <section className="w-full max-w-3xl mx-auto my-10 px-4">
+      <div className="rounded-2xl border p-10 shadow-lg bg-white">
+        <div className="flex flex-col md:flex-row md:items-center md:gap-8">
+          <Image 
+            src={getAvatarSource(profile?.image ?? null)}
+            alt={`${profile?.name}'s avatar`}
+            width={120}
+            height={120}
+            className="mb-6 md:mb-0 h-28 w-28 rounded-full object-cover border-2 border-slate-200 shadow-sm mx-auto md:mx-0"        
+          />
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-800 mb-1">{profile?.name}</h1>
+            <div className="text-slate-500 font-medium mb-2">@{profile?.username}</div>
+            <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-2">
               {profile?.skills.map((skill: string) => (
                 <span
                   key={skill}
-                  className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-muted/80 transition"
+                  className="rounded-full bg-sky-100 px-3 py-1 text-xs font-medium text-sky-700 border border-sky-200"
                 >
                   {skill}
                 </span>
               ))}
-            </p>
-        <p className="mt-8 text-sm font-normal text-slate-800">
-          {profile?.bio ?? "This user has not provided a bio yet."}
-        </p>
+            </div>
+            <div className="flex flex-col md:flex-row md:items-center gap-2 mt-2">
+              <span className="inline-block text-lg font-semibold text-green-700 bg-green-50 px-3 py-1 rounded-md">
+                {formatMoney(profile?.salary ?? 0)} <span className="text-xs text-green-600">/day</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-2 text-slate-700">Website</h2>
+          <div className="flex flex-wrap gap-4 items-center">
+            {/* Example: Add more fields as needed */}
+            <span className="inline-block text-slate-500 text-sm font-mono">{profile?.website}</span>
+            {/* Add LinkedIn, website, email, etc. if available in profile */}
+          </div>
+        </div>
+        {/* Bio Section */}
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-2 text-slate-700">About</h2>
+          <p className="text-base text-slate-800 leading-relaxed whitespace-pre-line">
+            {profile?.bio ?? "This user has not provided a bio yet."}
+          </p>
+        </div>
+        {/* Optionally, add more sections: portfolio, experience, etc. */}
       </div>
     </section>
   );

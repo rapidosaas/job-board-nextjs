@@ -209,6 +209,22 @@ export default function ProfileForm() {
             />
             <FormField
               control={control}
+              name="website"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Website</FormLabel>
+                  <FormControl>
+                    <Input {...field} value={field.value ?? ''} 
+                      type="url"
+                      placeholder="https://example.com/portfolio"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
               name="bio"
               render={({ field }) => (
                 <FormItem>
