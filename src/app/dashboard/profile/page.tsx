@@ -21,6 +21,7 @@ import { useSession } from "next-auth/react";
 import SkillsInput from "@/components/SkillsInput";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import avatar1 from "@/assets/avatar-1.png";
 import avatar2 from "@/assets/avatar-2.png";
@@ -112,6 +113,7 @@ export default function ProfileForm() {
                     userId: session?.user?.id,
                 }),
             });
+            toast.success("Profile updated successfully!");
         } catch (error) {
             console.error("Error saving profile:", error);
         }
