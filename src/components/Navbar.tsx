@@ -92,7 +92,7 @@ export default function Navbar() {
         <nav className="m-auto flex max-w-5xl items-center justify-between px-3 py-5">
           <Link href="/">
           <h1 className="flex items-center text-2xl font-bold">
-            <span className="text-sky-200">neo</span><span className="text-sky-700">Freelance</span>
+            <span className="text-blue-300">neo</span><span className="text-blue-600">Freelance</span>
           </h1>
           </Link>
           <div className="flex items-center space-x-4">
@@ -115,7 +115,7 @@ export default function Navbar() {
       <nav className="m-auto flex max-w-5xl items-center justify-between px-3 py-5">
         <Link href="/">
         <h1 className="flex items-center text-2xl font-bold">
-          <span className="text-sky-200">neo</span><span className="text-sky-500">Freelance</span>
+          <span className="text-blue-300">neo</span><span className="text-blue-600">Freelance</span>
         </h1>
         </Link>
         <div className="flex items-center space-x-4">

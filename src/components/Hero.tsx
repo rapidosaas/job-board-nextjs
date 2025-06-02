@@ -8,10 +8,15 @@ function Hero () {
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="text-center">
             <h1 className="text-balance text-xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
-              Find Your Next Remote Opportunity or Top Freelance Talent
+              Find Your Next 
+              {' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-600">
+                Full Remote
+              </span>{' '}
+              Opportunity or Top Freelance Talent
             </h1>
             <p className="mt-8 text-pretty text-lg font-medium text-gray-700 sm:text-xl/8">
-              neoFreelance connects businesses with skilled freelancers and helps professionals find fulfilling remote work. We specialize in opportunities for auto-entrepreneurs, offering a seamless platform for posting jobs and discovering talent worldwide.
+              neoFreelance connects businesses with skilled freelancers and helps professionals find fulfilling remote jobs. We specialize in opportunities for auto-entrepreneurs, offering a seamless platform for posting missions and discovering talent worldwide.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link
@@ -24,7 +29,7 @@ function Hero () {
                 href="/jobs"
                 className={`${buttonVariants({ variant: "outline" })}`}
               >
-                Find Work
+                Find Opportunity
               </Link>
             </div>
           </div>
@@ -38,7 +43,7 @@ function Hero () {
               clipPath:
                 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
             }}
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#38b6ff] to-[#004aad] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-blue-300 to-blue-600 opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
           />
         </div>
       </section>
