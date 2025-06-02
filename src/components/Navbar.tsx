@@ -69,9 +69,13 @@ export default function Navbar() {
 
   const AuthenticatedNavLinks = [
     { 
-      href: "/docs", 
-      label: "Docs",
+      href: "/u", 
+      label: "Talents",
     },
+    {
+      href: "/jobs",
+      label: "Opportunities",
+    }
   ];
 
   const renderNavLinks = (links: Array<{href: string, label: string}>) => (
