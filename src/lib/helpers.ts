@@ -29,3 +29,8 @@ export function formatMoney(amount: number, currency: string = "EUR") {
       .replace(/ /g, "-")
       .replace(/[^\w-]+/g, "");
   }
+
+  export function truncateText(text: string, maxLength: number) {
+    if (!text) return "";
+    return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
+  }

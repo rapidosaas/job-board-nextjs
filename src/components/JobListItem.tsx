@@ -1,14 +1,9 @@
-import { formatMoney, relativeDate } from "@/lib/helpers";
+import { formatMoney, relativeDate, truncateText } from "@/lib/helpers";
 import { Banknote, Briefcase, Clock, MapPin } from "lucide-react";
 import Job from "@/lib/types/job";
 
 interface JobListItemProps {
   job: Job;
-}
-
-function truncateText(text: string, maxLength: number) {
-  if (!text) return "";
-  return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
 }
 
 export default function JobListItem({

@@ -3,7 +3,7 @@ import Profile from '@/lib/types/profile';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatMoney } from '@/lib/helpers';
+import { formatMoney, truncateText } from '@/lib/helpers';
 
 import avatar1 from "@/assets/avatar-1.png";
 import avatar2 from "@/assets/avatar-2.png";
@@ -74,7 +74,7 @@ export default function ProfilesListPage() {
                     height={100}
                     className="mx-auto mb-4 h-24 w-24 rounded-full object-cover"        
                 />
-                <h1 className="text-xl font-semibold text-slate-800">{profile?.name}</h1>
+                <h1 className="text-xl font-semibold text-slate-800">{truncateText(profile?.name, 10)}</h1>
                 <h2 className="font-semibold text-slate-500">{formatMoney(profile?.salary ?? 0)}</h2>
                 <p className="inline-block">
                         {profile?.skills.map((skill: string) => (
@@ -86,9 +86,6 @@ export default function ProfilesListPage() {
                         </span>
                         ))}
                     </p>
-                <p className="mt-8 text-sm font-normal text-slate-800">
-                    {profile?.bio ?? "This user has not provided a bio yet."}
-                </p>
                 </div>
             </section>
           </Link>

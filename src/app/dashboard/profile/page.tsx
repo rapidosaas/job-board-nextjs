@@ -189,7 +189,7 @@ export default function ProfileForm() {
               name="salary"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Daily rate</FormLabel>
+                  <FormLabel>Daily rate in EUR</FormLabel>
                   <FormControl>
                     <Input
                     {...field}
