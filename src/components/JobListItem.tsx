@@ -6,6 +6,11 @@ interface JobListItemProps {
   job: Job;
 }
 
+function truncateText(text: string, maxLength: number) {
+  if (!text) return "";
+  return text.length > maxLength ? text.slice(0, maxLength) + "…" : text;
+}
+
 export default function JobListItem({
   job: {
     _id,
@@ -29,12 +34,8 @@ export default function JobListItem({
       {/* Job Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 relative">
         <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-semibold text-primary break-words">{title}</h2>
-          <p className="text-sm text-muted-foreground break-words">{company}</p>
-          <p className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin size={16} className="text-primary" />
-            <span>{location}</span>
-          </p>
+          <h2 className="text-2xl font-semibold text-primary break-words">{truncateText(title, 40)}</h2>
+          <p className="text-sm text-muted-foreground break-words">{truncateText(company, 30)}</p>
           {/* Skills */}
           {skills?.length > 0 && (
             <p className="flex flex-wrap gap-2 pt-1">
@@ -55,7 +56,7 @@ export default function JobListItem({
       </div>
 
       {/* Job Info Blocks */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-muted-foreground">
+      <div className="flex flex-col gap-2 text-sm text-muted-foreground">
         <div className="flex items-center gap-2">
           <Briefcase size={16} className="text-primary" />
           <span>{type}</span>
@@ -68,9 +69,15 @@ export default function JobListItem({
               : "Salary not disclosed"}
           </span>
         </div>
+        <div className="flex items-center gap-2">
+          <MapPin size={16} className="text-primary" />
+          <span>
+            {location}
+          </span>
+        </div>
       </div>
       {/* Bottom Right Clock */}
-      <div className="mt-4 flex justify-end">
+      <div className="flex justify-end">
         <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Clock size={16} />
           {relativeDate(createdAt)}

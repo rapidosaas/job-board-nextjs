@@ -34,16 +34,12 @@ export default function JobPagePublished({
       <div className="flex items-center gap-3">
         <div>
           <div>
-            <h1 className="text-xl font-bold">{job?.title}</h1>
-            <p className="font-semibold">
+            <h1 className="text-2xl font-bold">{job?.title}</h1>
+            <p className="text-xl">
                 <span>{job?.company}</span>
             </p>
           </div>
           <div className="text-muted-foreground">
-            <p className="flex items-center gap-1.5">
-              <MapPin size={16} className="shrink-0" />
-              {job?.location ?? "Worldwide"}
-            </p>
             <p className="flex items-center gap-1">
               {job?.skills.map((skill) => (
                 <span
@@ -61,6 +57,10 @@ export default function JobPagePublished({
             <p className="flex items-center gap-1.5">
               <Banknote size={16} className="shrink-0" />
               {formatMoney(job?.salaryMin ?? 0)} - {formatMoney(job?.salaryMax ?? 0)}
+            </p>
+            <p className="flex items-center gap-1.5">
+              <MapPin size={16} className="shrink-0" />
+              {job?.location ?? "Worldwide"}
             </p>
           </div>
         </div>
