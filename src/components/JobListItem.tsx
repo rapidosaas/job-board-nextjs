@@ -29,8 +29,8 @@ export default function JobListItem({
       {/* Job Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 relative">
         <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-semibold text-primary break-words">{truncateText(title, 40)}</h2>
-          <p className="text-sm text-muted-foreground break-words">{truncateText(company, 30)}</p>
+          <h2 className="text-2xl font-semibold text-primary break-words">{truncateText(title, 20)}</h2>
+          <p className="text-sm text-muted-foreground break-words">{truncateText(company, 20)}</p>
           {/* Skills */}
           {skills?.length > 0 && (
             <p className="flex flex-wrap gap-2 pt-1">
@@ -45,9 +45,6 @@ export default function JobListItem({
             </p>
           )}
         </div>
-        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700 absolute right-6 top-0 sm:static sm:right-auto">
-          {status.charAt(0).toUpperCase() + status.slice(1)}
-        </span>
       </div>
 
       {/* Job Info Blocks */}
@@ -72,8 +69,11 @@ export default function JobListItem({
         </div>
       </div>
       {/* Bottom Right Clock */}
-      <div className="flex justify-end">
-        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+      <div className="flex justify-end gap-1">
+        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700">
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </span>
+        <span className="flex items-center gap-1 text-xs text-muted-foreground">
           <Clock size={16} />
           {relativeDate(createdAt)}
         </span>

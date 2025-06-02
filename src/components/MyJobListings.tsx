@@ -91,56 +91,56 @@ const MyJobListings: React.FC = () => {
     <div className="p-4 md:p-6">
       <ul className="flex flex-col gap-4">
         {jobs.map(job => (
-          <li key={job._id.toString()} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-150 ease-in-out flex flex-col md:flex-row md:justify-between md:items-center gap-4 p-4 relative">
+          <li key={job._id.toString()} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-150 ease-in-out flex flex-col gap-2 p-4 relative">
             {/* Status badge at top right */}
             <span
               className={`absolute top-4 right-4 px-3 py-1 text-xs font-medium rounded-full capitalize z-10 ${getStatusClasses(job.status)}`}
             >
               {job.status}
             </span>
-            <div className="flex flex-col md:flex-row md:items-center gap-2 flex-1 min-w-0">
+            <div className="flex flex-col gap-1 flex-1 min-w-0">
               <Link href={`/dashboard/jobs/${job.slug}`} className="text-lg font-semibold text-gray-800 hover:underline truncate max-w-xs md:max-w-md lg:max-w-lg">
                 <span className="block md:hidden">{truncateText(job.title, 20)}</span>
                 <span className="hidden md:block">{job.title}</span>
               </Link>
-            </div>
-            <div className="flex flex-row flex-wrap gap-2 md:gap-2 md:flex-nowrap md:items-center">
-              <button
-                className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
-                onClick={() => window.location.href = `/dashboard/jobs/${job.slug}`}
-              >
-                View
-              </button>
-              <button
-                className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs"
-                onClick={() => window.location.href = `/dashboard/jobs/edit/${job.slug}`}
-              >
-                Modify
-              </button>
-              <button
-                className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  if (!confirm('Are you sure you want to delete this job?')) return;
-                  try {
-                    const res = await fetch('/api/dashboard/jobs', {
-                      method: 'DELETE',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ jobId: job._id })
-                    });
-                    if (res.ok) {
-                      setJobs(jobs.filter(j => j._id !== job._id));
-                    } else {
-                      const data = await res.json();
-                      alert(data.error ?? 'Failed to delete job');
+              <div className="flex flex-row flex-wrap gap-2 mt-2">
+                <button
+                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
+                  onClick={() => window.location.href = `/dashboard/jobs/${job.slug}`}
+                >
+                  View
+                </button>
+                <button
+                  className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs"
+                  onClick={() => window.location.href = `/dashboard/jobs/edit/${job.slug}`}
+                >
+                  Modify
+                </button>
+                <button
+                  className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    if (!confirm('Are you sure you want to delete this job?')) return;
+                    try {
+                      const res = await fetch('/api/dashboard/jobs', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ jobId: job._id })
+                      });
+                      if (res.ok) {
+                        setJobs(jobs.filter(j => j._id !== job._id));
+                      } else {
+                        const data = await res.json();
+                        alert(data.error ?? 'Failed to delete job');
+                      }
+                    } catch {
+                      alert('Error deleting job');
                     }
-                  } catch {
-                    alert('Error deleting job');
-                  }
-                }}
-              >
-                Delete
-              </button>
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </li>
         ))}
