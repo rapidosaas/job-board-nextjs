@@ -1,19 +1,10 @@
 import { formatMoney, relativeDate } from "@/lib/helpers";
 import { Banknote, Briefcase, Clock, Globe2, Trash } from "lucide-react";
 import { redirect } from "next/navigation";
+import Job from "@/lib/types/job";
 
 interface JobListItemProps {
-  job: {
-    _id : number;
-    title : string;
-    skills : string[];
-    company : string;
-    type : string;
-    location : string;
-    salaryMin : number;
-    salaryMax : number;
-    createdAt : Date;
-  };
+  job: Job;
 }
 
 export default function JobListItemPublished({
@@ -24,6 +15,7 @@ export default function JobListItemPublished({
     company,
     type,
     location,
+    currency,
     salaryMin,
     salaryMax,
     createdAt,
@@ -72,7 +64,7 @@ export default function JobListItemPublished({
             </p>
             <p className="flex items-center gap-1.5">
               <Banknote size={16} className="shrink-0" />
-              {formatMoney(salaryMin)} - {formatMoney(salaryMax)}
+              {formatMoney(salaryMin, currency)} - {formatMoney(salaryMax, currency)}
             </p>
             <p className="flex items-center gap-1">
               {skills.map((skill) => (

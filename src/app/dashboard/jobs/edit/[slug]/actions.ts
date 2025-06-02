@@ -34,6 +34,8 @@ export async function updateJobPosting(formData: FormData) {
             type: values.type,
             company: values.company,
             location: values.location,
+            currency: values.currency || "EUR", // Default value if not specified
+            // Ensure salaryMin and salaryMax are numbers or undefined
             salaryMin: values.salaryMin ? Number(values.salaryMin) : undefined,
             salaryMax: values.salaryMax ? Number(values.salaryMax) : undefined,
             description: values.description,

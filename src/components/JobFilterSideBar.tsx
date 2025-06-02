@@ -12,22 +12,26 @@ import {
   SelectValue, 
 } from "./ui/select";
 
+// Extend the schema to support company and location
+const extendedJobFilterSchema = jobFilterSchema.extend({
+  company: jobFilterSchema.shape.title.optional(),
+  location: jobFilterSchema.shape.title.optional(),
+});
+
 function filterJobs(formData: FormData) {
-
   const values = Object.fromEntries(formData.entries());
-
-  const { title, type } = jobFilterSchema.parse(values);
-
+  const { title, type, company, location } = extendedJobFilterSchema.parse(values);
   const searchParams = new URLSearchParams({
     ...(title && { title: title.trim() }),
     ...(type && { type }),
+    ...(company && { company: company.trim() }),
+    ...(location && { location: location.trim() }),
   });
-
   redirect(`/jobs/?${searchParams.toString()}`);
 }
 
 interface JobFilterSidebarProps {
-  defaultValues: JobFilterValues;
+  defaultValues: JobFilterValues & { company?: string; location?: string };
 }
 
 export default function JobFilterSidebar({
@@ -48,15 +52,34 @@ export default function JobFilterSidebar({
             />
           </div>
           <div className="flex flex-col gap-2">
+            <Label htmlFor="company">Company</Label>
+            <Input
+              id="company"
+              name="company"
+              placeholder="Search by company"
+              defaultValue={defaultValues.company ?? ""}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="location">Location</Label>
+            <Input
+              id="location"
+              name="location"
+              placeholder="Search by location"
+              defaultValue={defaultValues.location ?? ""}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
             <Label htmlFor="type">Type</Label>
             <Select
               name="type"
-              defaultValue={defaultValues.type ?? "" }
+              defaultValue={defaultValues.type ?? ""}
             >
               <SelectTrigger>
                 <SelectValue placeholder="All types" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem key="Any" value="Any">Any</SelectItem>
                 {jobTypes.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type}

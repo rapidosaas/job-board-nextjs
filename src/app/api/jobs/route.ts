@@ -14,8 +14,37 @@ export async function POST(request: NextRequest) {
     // Calculer les valeurs pour la pagination
     const skip = (page - 1) * jobsPerPage;
 
+    // Build MongoDB filter for flexible search
+    const mongoFilters: Record<string, unknown> = { ...filters };
+    if (filters.title) {
+      mongoFilters.title = { $regex: filters.title, $options: 'i' };
+    }
+    if (filters.company) {
+      mongoFilters.company = { $regex: filters.company, $options: 'i' };
+    }
+    if (filters.location) {
+      mongoFilters.location = { $regex: filters.location, $options: 'i' };
+    }
+    // Add more fields as needed for partial/case-insensitive search
+
+    // Remove undefined or empty string filters so they don't block other filters
+    Object.keys(mongoFilters).forEach((key) => {
+      if (
+        mongoFilters[key] === undefined ||
+        mongoFilters[key] === null ||
+        mongoFilters[key] === ''
+      ) {
+        delete mongoFilters[key];
+      }
+    });
+
+    // If type is empty string or 'Any', remove it from filters to allow any job type
+    if (mongoFilters.type === '' || mongoFilters.type === 'Any') {
+      delete mongoFilters.type;
+    }
+
     // Rechercher les jobs avec pagination
-    const jobs = await Job.find({ ...filters })
+    const jobs = await Job.find(mongoFilters)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(jobsPerPage);
@@ -23,7 +52,7 @@ export async function POST(request: NextRequest) {
     console.log(jobs);
 
     // Obtenir le nombre total de jobs correspondant aux filtres
-    const totalJobs = await Job.countDocuments({ ...filters });
+    const totalJobs = await Job.countDocuments(mongoFilters);
 
     // Retourner les résultats avec les métadonnées de pagination
     return NextResponse.json(

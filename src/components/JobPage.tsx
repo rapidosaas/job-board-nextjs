@@ -78,7 +78,7 @@ export default function JobPage({
             </p>
             <p className="flex items-center gap-1.5">
               <Banknote size={16} className="shrink-0" />
-              {formatMoney(job?.salaryMin ?? 0)} - {formatMoney(job?.salaryMax ?? 0)}
+              {formatMoney(job?.salaryMin ?? 0, job?.currency)} - {formatMoney(job?.salaryMax ?? 0, job?.currency)}
             </p>
             <p className="flex items-center gap-1.5">
               <Handshake size={16} className="shrink-0" />

@@ -12,6 +12,7 @@ export const createJobSchema = z
     ),
     company: requiredString.max(100),
     description: z.string().min(4, {message: "Description must be at least 10 characters.",}).max(250, {message: "Description can't be longer than 250 characters.",}),
+    currency: z.enum(["USD", "EUR", "DZD"]).default("EUR"),
     salaryMin: z.preprocess(
       (val) => val === '' || val === undefined || val === null ? undefined : Number(val),
       z.number().int().min(0, "Min rate must be at least 0").max(999999999, "Number can't be longer than 9 digits")

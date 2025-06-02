@@ -21,6 +21,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { jobTypes } from "@/lib/job-types";
 import { jobStatus } from "@/lib/job-status";
+import { jobCurrencies } from "@/lib/job-currencies";
 import { CreateJobValues, createJobSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -40,6 +41,10 @@ export default function NewJobForm() {
 
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobSchema),
+    defaultValues: {
+      status: "draft",
+      currency: "EUR",
+    },
   });
 
   const {
@@ -129,6 +134,30 @@ export default function NewJobForm() {
                       {jobTypes.map((type) => (
                             <SelectItem key={type} value={type}>
                               {type}
+                            </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="currency"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Currency</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value || "EUR"}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select currency" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {jobCurrencies.map((currency) => (
+                            <SelectItem key={currency} value={currency}>
+                              {currency}
                             </SelectItem>
                       ))}
                     </SelectContent>
@@ -243,7 +272,7 @@ export default function NewJobForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value || "open"}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value || "draft"}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select status" />

@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { jobTypes } from "@/lib/job-types";
+import { jobCurrencies } from "@/lib/job-currencies";
 import LocationInput from "@/components/LocationInput";
 import { X } from "lucide-react";
 import SkillsInput from "@/components/SkillsInput";
@@ -164,6 +165,30 @@ export default function EditJobPage() {
                         <SelectItem key={type} value={type}>
                           {type}
                         </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="currency"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Currency</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value || "EUR"}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select currency" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {jobCurrencies.map((currency) => (
+                            <SelectItem key={currency} value={currency}>
+                              {currency}
+                            </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>

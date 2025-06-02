@@ -31,6 +31,11 @@ const jobSchema = new Schema(
             type: String,
             required: true,
         },
+        currency: {
+            type: String,
+            enum: ["USD", "EUR", "DZD"],
+            default: "EUR",
+        },
         salaryMin: {
             type: Number,
             required: true,

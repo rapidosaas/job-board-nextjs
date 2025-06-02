@@ -14,6 +14,7 @@ export default function JobListItem({
     company,
     type,
     location,
+    currency,
     salaryMin,
     salaryMax,
     createdAt,
@@ -63,7 +64,7 @@ export default function JobListItem({
           <Banknote size={16} className="text-primary" />
           <span>
             {salaryMin && salaryMax
-              ? `${formatMoney(salaryMin)} - ${formatMoney(salaryMax)}`
+              ? `${formatMoney(salaryMin, currency)} - ${formatMoney(salaryMax, currency)}`
               : "Salary not disclosed"}
           </span>
         </div>

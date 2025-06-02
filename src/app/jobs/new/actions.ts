@@ -29,6 +29,8 @@ export async function createJobPosting(formData: FormData) {
             type: values.type,
             company: values.company,
             location: values.location,
+            currency: values.currency || "EUR", // Valeur par défaut si non spécifiée
+            // Assurez-vous que les valeurs sont converties en nombres si nécessaire
             salaryMin: values.salaryMin,
             salaryMax: values.salaryMax,
             description: values.description,
