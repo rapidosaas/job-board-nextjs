@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { truncateText } from "@/lib/helpers";
 
 interface Job {
   _id: string; // Assuming _id is a string, adjust if it's an ObjectId or another type
@@ -87,31 +88,31 @@ const MyJobListings: React.FC = () => {
   };
 
   return (
-    <div className="p-4 md:p-6"> {/* Increased padding for the component container */}
-      {/* Removed the H3 "My Job Postings" as the parent page already has a similar title. Or we can decide to keep it if sections are to be self-contained with titles */}
-      {/* <h3 className="text-xl font-semibold mb-4 text-gray-700">My Job Postings</h3> */}
-      <ul className="space-y-4">
+    <div className="p-4 md:p-6">
+      <ul className="flex flex-col gap-4">
         {jobs.map(job => (
-          <li key={job._id.toString()} className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-150 ease-in-out flex flex-col sm:flex-row justify-between sm:items-center">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <Link href={`/dashboard/jobs/${job.slug}`} className="text-lg font-semibold text-gray-800 hover:underline">
-                {job.title}
+          <li key={job._id.toString()} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-150 ease-in-out flex flex-col md:flex-row md:justify-between md:items-center gap-4 p-4 relative">
+            {/* Status badge at top right */}
+            <span
+              className={`absolute top-4 right-4 px-3 py-1 text-xs font-medium rounded-full capitalize z-10 ${getStatusClasses(job.status)}`}
+            >
+              {job.status}
+            </span>
+            <div className="flex flex-col md:flex-row md:items-center gap-2 flex-1 min-w-0">
+              <Link href={`/dashboard/jobs/${job.slug}`} className="text-lg font-semibold text-gray-800 hover:underline truncate max-w-xs md:max-w-md lg:max-w-lg">
+                <span className="block md:hidden">{truncateText(job.title, 20)}</span>
+                <span className="hidden md:block">{job.title}</span>
               </Link>
-              <span
-                className={`px-3 py-1 text-xs font-medium rounded-full capitalize ${getStatusClasses(job.status)}`}
-              >
-                {job.status}
-              </span>
             </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-2 sm:mt-0">
+            <div className="flex flex-row flex-wrap gap-2 md:gap-2 md:flex-nowrap md:items-center">
               <button
-                className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs mr-2"
+                className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
                 onClick={() => window.location.href = `/dashboard/jobs/${job.slug}`}
               >
                 View
               </button>
               <button
-                className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs mr-2"
+                className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs"
                 onClick={() => window.location.href = `/dashboard/jobs/edit/${job.slug}`}
               >
                 Modify

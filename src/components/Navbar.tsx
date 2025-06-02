@@ -26,6 +26,7 @@ export default function Navbar() {
   console.log('Session NavBar:', session);
 
   const [avatar, setAvatar] = useState<string | null>(avatar1.src);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (session) {
@@ -78,12 +79,13 @@ export default function Navbar() {
     }
   ];
 
-  const renderNavLinks = (links: Array<{href: string, label: string}>) => (
+  const renderNavLinks = (links: Array<{href: string, label: string}>, onClick?: () => void) => (
     links.map((link) => (
       <Link 
         key={link.href} 
         href={link.href} 
         className="flex items-center px-3 py-2 hover:bg-gray-100 rounded-md transition-colors text-gray-700 hover:text-black"
+        onClick={onClick}
       >
         {link.label}
       </Link>
@@ -123,30 +125,39 @@ export default function Navbar() {
         </h1>
         </Link>
         <div className="flex items-center space-x-4">
-          <div className="flex space-x-4">
+          {/* Desktop nav links */}
+          <div className="hidden md:flex space-x-4">
             {renderNavLinks(AuthenticatedNavLinks)}
           </div>
+          {/* Hamburger for mobile */}
+          <button
+            className="md:hidden flex items-center px-2 py-1 border rounded text-gray-700 border-gray-300 hover:bg-gray-100"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label="Open menu"
+          >
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
           <DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Avatar className="size-10 cursor-pointer border border-border items-center">
+            <DropdownMenuTrigger asChild>
+              <Avatar className="size-10 cursor-pointer border border-border items-center">
                 <AvatarImage src={getAvatarSource(avatar)} alt="@shadcn" />
-								<AvatarFallback>
-									{session?.user?.email
-										?.split(" ")
-										.map((n) => n[0])
-										.join("")}
-								</AvatarFallback>
-							</Avatar>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent className="w-56" align="end">
-							<DropdownMenuLabel className="flex flex-col">
-								<span>My Account</span>
+                <AvatarFallback>
+                  {session?.user?.email
+                    ?.split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end">
+              <DropdownMenuLabel className="flex flex-col">
+                <span>My Account</span>
                 <span className="text-xs font-normal text-muted-foreground">
                   {session?.user?.email}
                 </span>
-							</DropdownMenuLabel>
-							<DropdownMenuSeparator />
-							<DropdownMenuGroup>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
                 <DropdownMenuItem
                   className="cursor-pointer"
                   onClick={() => {
@@ -163,18 +174,26 @@ export default function Navbar() {
                 >
                   Profile
                 </DropdownMenuItem>
-							</DropdownMenuGroup>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem
-								className="cursor-pointer"
-								onClick={() => signOut({ callbackUrl: '/' })}
-							>
-								Log out
-							</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => signOut({ callbackUrl: '/' })}
+              >
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </nav>
+      {/* Mobile menu dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-200 shadow-sm">
+          <div className="flex flex-col px-4 py-2 space-y-2">
+            {renderNavLinks(AuthenticatedNavLinks, () => setMobileMenuOpen(false))}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
