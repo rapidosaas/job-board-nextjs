@@ -27,10 +27,10 @@ export default function JobListItem({
       className="relative flex flex-col gap-5 rounded-xl border border-muted bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
     >
       {/* Job Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-          <h2 className="text-2xl font-semibold text-primary">{title}</h2>
-          <p className="text-sm text-muted-foreground">{company}</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 relative">
+        <div className="flex-1 min-w-0">
+          <h2 className="text-2xl font-semibold text-primary break-words">{title}</h2>
+          <p className="text-sm text-muted-foreground break-words">{company}</p>
           <p className="flex items-center gap-2 text-sm text-muted-foreground">
             <MapPin size={16} className="text-primary" />
             <span>{location}</span>
@@ -49,7 +49,7 @@ export default function JobListItem({
             </p>
           )}
         </div>
-        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700">
+        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700 absolute right-6 top-0 sm:static sm:right-auto">
           {status.charAt(0).toUpperCase() + status.slice(1)}
         </span>
       </div>

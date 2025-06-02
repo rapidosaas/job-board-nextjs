@@ -14,20 +14,29 @@ export default function JobPage({
 }: JobPageProps) {
 
   const [profile, setProfile] = useState<Profile | undefined>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        fetch("/api/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username }),
-        })
-        .then((res) => res.json())
-        .then((data) => {
-        console.log(data);
+  useEffect(() => {
+      setLoading(true);
+      setError(null);
+      fetch(`/api/profile?username=${encodeURIComponent(username)}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Profile not found');
+        return res.json();
+      })
+      .then((data) => {
         setProfile(data.profile);
-        })
-        .catch((err) => console.log(err));
-    }, [username]);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [username]);
+
+  if (loading) return <div className="p-4 text-center">Loading profile...</div>;
+  if (error) return <div className="p-4 text-center text-red-600">{error}</div>;
 
   return (
     <section className="w-full grow space-y-5">

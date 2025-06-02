@@ -39,3 +39,22 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
+
+export async function GET(request: NextRequest) {
+    try {
+        await connectDB();
+        const { searchParams } = new URL(request.url);
+        const username = searchParams.get('username');
+        if (!username) {
+            return NextResponse.json({ error: 'Username is required' }, { status: 400 });
+        }
+        const profile = await Profile.findOne({ username });
+        if (!profile) {
+            return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
+        }
+        return NextResponse.json({ profile }, { status: 200 });
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    }
+}
