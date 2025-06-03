@@ -16,6 +16,7 @@ const geistSans = localFont({
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -25,6 +26,22 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "neoFreelance",
   description: "neoFreelance, a platform connecting talented freelancers with business providers. Post jobs, find freelance, and collaborate on projetcs.",
+  openGraph: {
+    title: "neoFreelance",
+    description: "Connecting talents with opportunities.",
+    url: "https://neofreelance.com",
+    siteName: "neoFreelance",
+    images: [
+      {
+        url: "/jannis-brandt-4mHaSX8zvJI-unsplash.jpg",
+        width: 1200,
+        height: 630,
+        alt: "neoFreelance",
+      },
+    ],
+    locale: "fr_FR",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
