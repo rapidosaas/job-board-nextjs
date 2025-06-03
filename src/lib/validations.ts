@@ -45,7 +45,7 @@ export const singInSchema = z.object({
 });
 
 export const profileSchema = z.object({
-  username: requiredString.max(8),
+  username: requiredString.max(20).regex(/^\w+$/, "Username can only contain letters, numbers, and underscores"),
   name: requiredString.max(50),
   website: z.string().url().optional(),
   bio: z.string().max(250),
