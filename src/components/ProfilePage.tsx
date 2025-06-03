@@ -4,16 +4,8 @@ import { formatMoney } from "@/lib/helpers";
 import { useEffect, useState } from "react";
 import Profile from "@/lib/types/profile";
 import Image from "next/image";
-
-import avatar1 from "@/assets/avatar-1.png";
-import avatar2 from "@/assets/avatar-2.png";
-import avatar3 from "@/assets/avatar-3.png";
-
-const randomImages = [
-  { name: avatar1, source: "avatar-1.png" },
-  { name: avatar2, source: "avatar-2.png" },
-  { name: avatar3, source: "avatar-3.png" },
-];
+import Markdown from "react-markdown";
+import { getAvatarSource } from "@/lib/avatars";
 
 interface JobPageProps {
   readonly username: string;
@@ -44,13 +36,6 @@ export default function JobPage({
         setLoading(false);
       });
   }, [username]);
-
-  const getAvatarSource = (avatar: string | null) => {
-    console.log('Avatar:', avatar);
-    const avatarObj = randomImages.find((img) => img.source === avatar);
-    console.log('Avatar:', avatarObj);
-    return avatarObj ? avatarObj.name.src : avatar1.src;
-  };
 
   if (loading) return <div className="p-4 text-center">Loading profile...</div>;
   if (error) return <div className="p-4 text-center text-red-600">{error}</div>;
@@ -89,17 +74,21 @@ export default function JobPage({
         <div className="mt-8">
           <h2 className="text-lg font-semibold mb-2 text-slate-700">Website</h2>
           <div className="flex flex-wrap gap-4 items-center">
-            {/* Example: Add more fields as needed */}
-            <span className="inline-block text-slate-500 text-sm font-mono">{profile?.website}</span>
-            {/* Add LinkedIn, website, email, etc. if available in profile */}
+            {profile?.website ? (
+              <span className="inline-block text-slate-500 text-sm font-mono">{profile.website}</span>
+            ) : (
+              <span className="inline-block text-slate-400 text-sm italic">No website provided.</span>
+            )}
           </div>
         </div>
         {/* Bio Section */}
         <div className="mt-8">
           <h2 className="text-lg font-semibold mb-2 text-slate-700">About</h2>
-          <p className="text-base text-slate-800 leading-relaxed whitespace-pre-line">
+          <div className="text-base text-slate-800 leading-relaxed whitespace-pre-line">
+            <Markdown>
             {profile?.bio ?? "This user has not provided a bio yet."}
-          </p>
+            </Markdown>
+          </div>
         </div>
         {/* Optionally, add more sections: portfolio, experience, etc. */}
       </div>

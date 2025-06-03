@@ -5,6 +5,7 @@ import { Banknote, Briefcase, MapPin, Handshake } from "lucide-react";
 import { useEffect, useState } from "react";
 import Job from "@/lib/types/job";
 import Link from "next/link";
+import Markdown from "react-markdown";
 
 interface JobPageProps {
   readonly slug: string;
@@ -87,7 +88,11 @@ export default function JobPage({
           </div>
         </div>
       </div>
-      <div>{job?.description}</div>
+      <div className="prose">
+        <Markdown>
+          {job?.description}
+        </Markdown>
+      </div>
       <div className="flex items-center gap-2">
         <span className="text-xs text-muted-foreground">
           Posted on {new Date(job?.createdAt ?? '').toLocaleDateString()} by {username ? (

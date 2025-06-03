@@ -4,6 +4,7 @@ import { formatMoney } from "@/lib/helpers";
 import { Banknote, Briefcase, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import Job from "@/lib/types/job";
+import Markdown from "react-markdown";
 
 interface JobPageProps {
   readonly slug: string;
@@ -65,7 +66,11 @@ export default function JobPagePublished({
           </div>
         </div>
       </div>
-      <div>{job?.description}</div>
+      <div className="prose">
+        <Markdown>
+          {job?.description}
+        </Markdown>
+      </div>
     </section>
   );
 }

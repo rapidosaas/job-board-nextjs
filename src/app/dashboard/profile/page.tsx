@@ -22,18 +22,9 @@ import SkillsInput from "@/components/SkillsInput";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
-import avatar1 from "@/assets/avatar-1.png";
-import avatar2 from "@/assets/avatar-2.png";
-import avatar3 from "@/assets/avatar-3.png";
-
 import Profile from "@/lib/types/profile";
 
-const randomImages = [
-    { name: avatar1, source: "avatar-1.png" },
-    { name: avatar2, source: "avatar-2.png" },
-    { name: avatar3, source: "avatar-3.png" },
-];
+import { randomImages } from "@/lib/avatars";
 
 export default function ProfileForm() {
     const { data: session } = useSession();

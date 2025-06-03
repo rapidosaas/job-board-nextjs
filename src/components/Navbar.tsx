@@ -7,16 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-import avatar1 from "@/assets/avatar-1.png";
-import avatar2 from "@/assets/avatar-2.png";
-import avatar3 from "@/assets/avatar-3.png";
-
-const randomImages = [
-  { name: avatar1, source: "avatar-1.png" },
-  { name: avatar2, source: "avatar-2.png" },
-  { name: avatar3, source: "avatar-3.png" },
-];
+import { getAvatarSource } from "@/lib/avatars";
 
 export default function Navbar() {
   const router = useRouter();
@@ -25,7 +16,7 @@ export default function Navbar() {
 
   console.log('Session NavBar:', session);
 
-  const [avatar, setAvatar] = useState<string | null>(avatar1.src);
+  const [avatar, setAvatar] = useState<string | null>(getAvatarSource(null));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -38,7 +29,7 @@ export default function Navbar() {
         .then((response) => { 
           if (response.status === 404) {
             // Profile not found, set a default avatar
-            setAvatar(avatar1.src);
+            setAvatar(getAvatarSource(null));
             return null;
           }
           return response.json();
@@ -53,13 +44,6 @@ export default function Navbar() {
         });
     }
   }, [session]);
-
-  const getAvatarSource = (avatar: string | null) => {
-    console.log('Avatar:', avatar);
-    const avatarObj = randomImages.find((img) => img.source === avatar);
-    console.log('Avatar:', avatarObj);
-    return avatarObj ? avatarObj.name.src : avatar1.src;
-  };
 
   const NavLinks = [
     { 

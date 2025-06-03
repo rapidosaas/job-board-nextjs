@@ -4,6 +4,7 @@ export default function TOS() {
         <h1 className="font-bold">Term of Service</h1>
         <p>This software is not garanteed.</p>
         <p>The data may disapear from a day to another.</p>
+        <p>Because of the architecture, your accounts can&apos;t be removed.</p>
       </main>
     )
 }
